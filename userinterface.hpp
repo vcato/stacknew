@@ -1,0 +1,41 @@
+#ifndef USERINTERFACE_HPP_
+#define USERINTERFACE_HPP_
+
+#include <functional>
+#include <vector>
+#include <QApplication>
+#include <QWidget>
+#include <QTableWidget>
+#include <QPushButton>
+#include <QBoxLayout>
+#include "listentry.hpp"
+
+
+class UserInterface : public QObject {
+    Q_OBJECT
+
+  public:
+    UserInterface(int &argc,char** const argv);
+
+    void create();
+    void fillList(const std::vector<ListEntry> &list_entries);
+    void show();
+
+    std::function<void(int row)> row_clicked_func;
+    std::function<void()>        update_func;
+
+  private:
+    QApplication app;
+    QWidget widget;
+    QVBoxLayout layout;
+    QPushButton update_button{"Update"};
+    QTableWidget list;
+
+    void setCellText(int row,int col,const std::string &text,bool is_new);
+
+  private slots:
+    void updatePressed();
+    void rowDoubleClicked(QTableWidgetItem*);
+};
+
+#endif /* USERINTERFACE_HPP_ */

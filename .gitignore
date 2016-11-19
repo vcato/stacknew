@@ -1,0 +1,8 @@
+*.json
+*.o
+*.d
+*.pass
+*_test
+*_moc.cpp
+main
+archive/
