@@ -4,5 +4,5 @@
 *.pass
 *_test
 *_moc.cpp
-main
+stacknew
 archive/

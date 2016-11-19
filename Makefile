@@ -5,9 +5,9 @@ CXXFLAGS=-g -MD -MP -W -Wall -pedantic -std=c++14 $(HEADERS)
 
 all:
 	$(MAKE) run_unit_tests
-	$(MAKE) main
+	$(MAKE) stacknew
 
-main: main.o data.o userinterface.o controller.o \
+stacknew: main.o data.o userinterface.o controller.o \
   decodedstring.o makelistentries.o openlink.o \
   playsound.o userinterface_moc.o
 	$(CXX) -o $@ $^ -lPocoNet -lPocoFoundation -ljsoncpp $(LIBS)
