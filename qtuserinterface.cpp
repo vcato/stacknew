@@ -1,12 +1,14 @@
 #include "qtuserinterface.hpp"
 
 #include <iostream>
+#include <cassert>
 #include <QHeaderView>
 #include "listentries.hpp"
 
 
 using std::string;
 using std::cerr;
+using OptionalListIndex = UserInterface::OptionalListIndex;
 
 
 QtUserInterface::QtUserInterface(int &argc,char** const argv)
@@ -21,12 +23,18 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
   update_layout.addWidget(&update_label);
   update_layout.addWidget(&update_combo_box);
   layout.addLayout(&update_layout);
+  list.setSelectionBehavior(QAbstractItemView::SelectRows);
   layout.addWidget(&list);
   connect(&update_button,SIGNAL(clicked()),SLOT(updateCallback()));
   connect(
     &list,
     SIGNAL(itemDoubleClicked(QTableWidgetItem*)),
     SLOT(rowDoubleClicked(QTableWidgetItem*))
+  );
+  connect(
+    &list,
+    SIGNAL(itemSelectionChanged()),
+    SLOT(listSelectionChanged())
   );
   connect(&timer,SIGNAL(timeout()),SLOT(timeoutCallback()));
   connect(
@@ -133,4 +141,32 @@ void QtUserInterface::setUpdateOptions(const UpdateOptions &update_options)
   for (const auto &option : update_options) {
     update_combo_box.addItem(option.text.c_str());
   }
+}
+
+
+OptionalListIndex QtUserInterface::selectedListIndex()
+{
+  QItemSelectionModel *model_ptr = list.selectionModel();
+  assert(model_ptr);
+  QModelIndexList selected_rows = model_ptr->selectedRows();
+  if (selected_rows.size()==1) {
+    return selected_rows[0].row();
+  }
+  return no_list_index;
+}
+
+
+void QtUserInterface::setSelectedListIndex(OptionalListIndex optional_index)
+{
+  if (optional_index==no_list_index) {
+    list.clearSelection();
+  }
+  else {
+    list.selectRow(optional_index);
+  }
+}
+
+
+void QtUserInterface::listSelectionChanged()
+{
 }

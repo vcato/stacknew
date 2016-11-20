@@ -23,6 +23,10 @@ class Controller : UserInterface::EventHandler {
     Data data;
 
   private:
+    using OptionalQuestionId = int;
+    using OptionalListIndex = UserInterface::OptionalListIndex;
+
+    static const OptionalQuestionId no_question_id = -1;
 
     UserInterface &user_interface;
     System &system;
@@ -31,6 +35,8 @@ class Controller : UserInterface::EventHandler {
     void updatePressed() override;
     void timeoutOccurred();
     void updateOptionSelected(int) override;
+    OptionalQuestionId optionalQuestionIdFor(OptionalListIndex);
+    OptionalListIndex indexOfQuestionWithId(OptionalQuestionId);
 
     bool updateList();
     void update();

@@ -6,6 +6,10 @@
 
 class UserInterface {
   public:
+    static const int no_list_index = -1;
+
+    using OptionalListIndex = int;
+
     struct UpdateInterval {
       bool is_none = true;
       int interval_in_minutes = 0;
@@ -53,6 +57,8 @@ class UserInterface {
     EventHandler& eventHandler();
 
     virtual void setUpdateOptions(const UpdateOptions &) = 0;
+    virtual OptionalListIndex selectedListIndex() = 0;
+    virtual void setSelectedListIndex(OptionalListIndex) = 0;
     virtual void setTagsString(const std::string &) = 0;
     virtual std::string tagsString() = 0;
     virtual void show() = 0;

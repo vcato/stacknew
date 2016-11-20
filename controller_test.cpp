@@ -7,6 +7,7 @@
 using std::string;
 using std::cerr;
 using UpdateInterval = UserInterface::UpdateInterval;
+static const auto no_list_index = UserInterface::no_list_index;
 
 
 namespace {
@@ -20,6 +21,7 @@ namespace {
     void fillList(const ListEntries &arg) override
     {
       list_entries = arg;
+      selected_index = no_list_index;
     }
 
     void setUpdateOptions(const std::vector<UpdateOption> &arg) override
@@ -68,11 +70,27 @@ namespace {
       eventHandler().updateOptionSelected(index);
     }
 
+    void userSelectsIndex(int arg)
+    {
+      selected_index = arg;
+    }
+
     void enableTimeouts()
     {
     }
 
+    OptionalListIndex selectedListIndex()
+    {
+      return selected_index;
+    }
+
+    void setSelectedListIndex(OptionalListIndex arg)
+    {
+      selected_index = arg;
+    }
+
     string tags;
+    OptionalListIndex selected_index = no_list_index;
     bool is_shown = false;
     ListEntries list_entries;
     UpdateOptions update_options;
@@ -190,7 +208,6 @@ namespace {
       assert(system.query_count==1);
     }
 
-
     void testChangingUpdateInterval()
     {
       controller.runApplication();
@@ -201,6 +218,37 @@ namespace {
       assert(system.query_count==1);
       user_interface.userChangesUpdateIntervalTo("1 minute");
       assert(system.query_count==2);
+    }
+
+    void testSelectedItemMovesOnUpdate()
+    {
+      system.stored_new_questions = {
+        {"title","link",1234,1}
+      };
+      system.pending_questions = {
+        {"title","link",1234,2},
+        {"title","link",1234,1}
+      };
+      controller.runApplication();
+      user_interface.userSelectsIndex(0);
+      assert(user_interface.selected_index==0);
+      user_interface.userPressesUpdate();
+      assert(user_interface.selected_index==1);
+    }
+
+    void testSelectedItemRemovedOnUpdate()
+    {
+      system.stored_new_questions = {
+        {"title","link",1234,1}
+      };
+      system.pending_questions = {
+        {"title","link",1234,2}
+      };
+      controller.runApplication();
+      user_interface.userSelectsIndex(0);
+      assert(user_interface.selected_index==0);
+      user_interface.userPressesUpdate();
+      assert(user_interface.selected_index==no_list_index);
     }
   };
 }
@@ -215,4 +263,6 @@ int main()
   TestHarness().testOpeningAQuestion();
   TestHarness().testAutomaticUpdates();
   TestHarness().testChangingUpdateInterval();
+  TestHarness().testSelectedItemMovesOnUpdate();
+  TestHarness().testSelectedItemRemovedOnUpdate();
 }

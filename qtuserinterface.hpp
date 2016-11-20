@@ -29,6 +29,8 @@ class QtUserInterface : public QObject, public UserInterface {
     void setTagsString(const std::string &) override;
     void enableTimeouts();
     void show() override;
+    OptionalListIndex selectedListIndex() override;
+    void setSelectedListIndex(OptionalListIndex) override;
 
   private:
     QApplication app;
@@ -51,6 +53,7 @@ class QtUserInterface : public QObject, public UserInterface {
     void rowDoubleClicked(QTableWidgetItem*);
     void timeoutCallback();
     void updateOptionActivated(int index);
+    void listSelectionChanged();
 };
 
 #endif /* QTUSERINTERFACE_HPP_ */
