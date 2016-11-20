@@ -11,6 +11,7 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QTimer>
+#include <QComboBox>
 #include "listentries.hpp"
 #include "userinterface.hpp"
 
@@ -22,6 +23,7 @@ class QtUserInterface : public QObject, public UserInterface {
   public:
     QtUserInterface(int &argc,char** const argv);
 
+    void setUpdateOptions(const UpdateOptions &) override;
     void fillList(const ListEntries &list_entries) override;
     std::string tagsString() override;
     void setTagsString(const std::string &) override;
@@ -35,7 +37,10 @@ class QtUserInterface : public QObject, public UserInterface {
     QHBoxLayout tags_layout;
     QLabel tags_label{"Tags:"};
     QLineEdit tags_field;
-    QPushButton update_button{"Update"};
+    QPushButton update_button{"Update Now"};
+    QHBoxLayout update_layout;
+    QLabel update_label{"Automatic Update Interval:"};
+    QComboBox update_combo_box;
     QTimer timer;
     QTableWidget list;
 
@@ -45,6 +50,7 @@ class QtUserInterface : public QObject, public UserInterface {
     void updateCallback();
     void rowDoubleClicked(QTableWidgetItem*);
     void timeoutCallback();
+    void updateOptionActivated(int index);
 };
 
 #endif /* QTUSERINTERFACE_HPP_ */

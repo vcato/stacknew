@@ -6,19 +6,27 @@
 
 using std::string;
 using std::cerr;
+using UpdateInterval = UserInterface::UpdateInterval;
 
 
 namespace {
   struct FakeUserInterface : UserInterface {
-    virtual void setTagsString(const std::string &arg) { tags = arg; }
-    virtual std::string tagsString() { return tags; }
+    void setTagsString(const std::string &arg) override { tags = arg; }
 
-    virtual void show() { is_shown = true; }
+    std::string tagsString() override { return tags; }
 
-    virtual void fillList(const ListEntries &arg)
+    void show() override { is_shown = true; }
+
+    void fillList(const ListEntries &arg) override
     {
       list_entries = arg;
     }
+
+    void setUpdateOptions(const std::vector<UpdateOption> &arg) override
+    {
+      update_options = arg;
+    }
+
 
     void userChangesTagsTo(const string &tags_arg)
     {
@@ -28,7 +36,36 @@ namespace {
     void userDoubleClicksOnRow(size_t row)
     {
       assert(row<list_entries.size());
-      rowClicked(row);
+      eventHandler().rowClicked(row);
+    }
+
+    void userPressesUpdate()
+    {
+      eventHandler().updatePressed();
+    }
+
+    void timeoutOccurs()
+    {
+      eventHandler().timeoutOccurred();
+    }
+
+    int updateOptionWithName(const std::string &arg)
+    {
+      int n = update_options.size();
+
+      for (int i=0; i!=n; ++i) {
+        if (update_options[i].text==arg) {
+          return i;
+        }
+      }
+
+      assert(false);
+    }
+
+    void userChangesUpdateIntervalTo(const std::string &arg)
+    {
+      int index = updateOptionWithName(arg);
+      eventHandler().updateOptionSelected(index);
     }
 
     void enableTimeouts()
@@ -38,6 +75,7 @@ namespace {
     string tags;
     bool is_shown = false;
     ListEntries list_entries;
+    UpdateOptions update_options;
   };
 }
 
@@ -107,7 +145,7 @@ namespace {
     void testPressingUpdate()
     {
       controller.runApplication();
-      user_interface.updatePressed();
+      user_interface.userPressesUpdate();
       assert(system.query_tags==Controller::defaultTags());
     }
 
@@ -116,7 +154,7 @@ namespace {
     {
       controller.runApplication();
       user_interface.userChangesTagsTo("c++ c++14");
-      user_interface.updatePressed();
+      user_interface.userPressesUpdate();
       assert(system.query_tags=="c++ c++14");
     }
 
@@ -126,7 +164,7 @@ namespace {
       system.pending_questions = {
         {"title","link",1234,1}
       };
-      user_interface.updatePressed();
+      user_interface.userPressesUpdate();
       assert(system.new_questions_sound_was_played);
     }
 
@@ -143,12 +181,26 @@ namespace {
     void testAutomaticUpdates()
     {
       system.current_time = 100;
+      controller.data.update_interval = UpdateInterval::inMinutes(1);
       controller.runApplication();
-      user_interface.updatePressed();
+      user_interface.userPressesUpdate();
       system.current_time = 100+60;
       system.query_count = 0;
-      user_interface.timeoutOccurred();
+      user_interface.timeoutOccurs();
       assert(system.query_count==1);
+    }
+
+
+    void testChangingUpdateInterval()
+    {
+      controller.runApplication();
+      system.current_time = 100;
+      user_interface.userPressesUpdate();
+      system.current_time = 160;
+      user_interface.timeoutOccurs();
+      assert(system.query_count==1);
+      user_interface.userChangesUpdateIntervalTo("1 minute");
+      assert(system.query_count==2);
     }
   };
 }
@@ -162,4 +214,5 @@ int main()
   TestHarness().testNewQuestionsMakeASound();
   TestHarness().testOpeningAQuestion();
   TestHarness().testAutomaticUpdates();
+  TestHarness().testChangingUpdateInterval();
 }

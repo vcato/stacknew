@@ -7,6 +7,14 @@
 
 using std::string;
 using std::cerr;
+using std::vector;
+using UpdateInterval = UserInterface::UpdateInterval;
+using UpdateOption = UserInterface::UpdateOption;
+
+static const vector<UpdateOption> update_options = {
+  {"None",UpdateInterval::none},
+  {"1 minute",UpdateInterval::inMinutes(1)}
+};
 
 
 static bool anyAreNew(const ListEntries &new_entries)
@@ -42,9 +50,14 @@ Controller::Controller(
 : user_interface(user_interface_arg),
   system(system_arg)
 {
-  user_interface.row_clicked_func = [&](int row) { rowClicked(row); };
-  user_interface.update_func = [&]() { updatePressed(); };
-  user_interface.timeout_func = [&]() { timeoutOccurred(); };
+  user_interface.setEventHandler(this);
+  user_interface.setUpdateOptions(update_options);
+}
+
+
+Controller::~Controller()
+{
+  user_interface.setEventHandler(nullptr);
 }
 
 
@@ -91,10 +104,30 @@ bool Controller::updateList()
 }
 
 
+void Controller::checkForAutomaticUpdates()
+{
+  double time_since_last_update_in_seconds =
+    system.currentTime()-data.last_update_time;
+  cerr.setf(std::ios::fixed);
+
+  if (!data.update_interval.isNone()) {
+    double update_interval_in_seconds = data.update_interval.inMinutes()*60;
+
+    if (time_since_last_update_in_seconds>=update_interval_in_seconds) {
+      update();
+    }
+  }
+}
+
+
 void Controller::timeoutOccurred()
 {
-  double time_since_last_update = system.currentTime()-data.last_update_time;
-  if (time_since_last_update>=data.update_interval) {
-    update();
-  }
+  checkForAutomaticUpdates();
+}
+
+
+void Controller::updateOptionSelected(int index)
+{
+  data.update_interval = update_options[index].interval;
+  checkForAutomaticUpdates();
 }

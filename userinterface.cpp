@@ -1,24 +1,21 @@
 #include "userinterface.hpp"
 
 #include <iostream>
+#include <cassert>
 
 
 using std::cerr;
+using EventHandler = UserInterface::EventHandler;
 
 
-void UserInterface::updatePressed()
+EventHandler& UserInterface::eventHandler()
 {
-  update_func();
+  assert(event_handler_ptr);
+  return *event_handler_ptr;
 }
 
 
-void UserInterface::rowClicked(size_t row)
+void UserInterface::setEventHandler(EventHandler *arg)
 {
-  row_clicked_func(row);
-}
-
-
-void UserInterface::timeoutOccurred()
-{
-  timeout_func();
+  event_handler_ptr = arg;
 }

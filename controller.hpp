@@ -2,32 +2,37 @@
 #include "system.hpp"
 
 
-class Controller {
+class Controller : UserInterface::EventHandler {
   public:
     Controller(UserInterface&, System&);
+    ~Controller();
 
     void runApplication();
     static std::string defaultTags() { return "c++ c++11 c++14 c++17"; }
 
-  private:
     struct Data {
       void readExisting(System&);
       void update(System&,const std::string &tags);
 
       Questions old_questions;
       Questions new_questions;
-      double update_interval = 60;
+      UpdateInterval update_interval = UpdateInterval::none();
       double last_update_time = 0;
     };
 
-    UserInterface &user_interface;
-    System &system;
     Data data;
 
-    void rowClicked(size_t row);
-    void updatePressed();
+  private:
+
+    UserInterface &user_interface;
+    System &system;
+
+    void rowClicked(size_t row) override;
+    void updatePressed() override;
     void timeoutOccurred();
+    void updateOptionSelected(int) override;
 
     bool updateList();
     void update();
+    void checkForAutomaticUpdates();
 };

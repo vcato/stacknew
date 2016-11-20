@@ -16,7 +16,11 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
   layout.addLayout(&tags_layout);
   tags_layout.addWidget(&tags_label);
   tags_layout.addWidget(&tags_field);
-  layout.addWidget(&update_button);
+  update_layout.addWidget(&update_button);
+  update_layout.addStretch();
+  update_layout.addWidget(&update_label);
+  update_layout.addWidget(&update_combo_box);
+  layout.addLayout(&update_layout);
   layout.addWidget(&list);
   connect(&update_button,SIGNAL(clicked()),SLOT(updateCallback()));
   connect(
@@ -25,6 +29,11 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
     SLOT(rowDoubleClicked(QTableWidgetItem*))
   );
   connect(&timer,SIGNAL(timeout()),SLOT(timeoutCallback()));
+  connect(
+    &update_combo_box,
+    SIGNAL(activated(int)),
+    SLOT(updateOptionActivated(int))
+  );
 }
 
 
@@ -91,13 +100,13 @@ void QtUserInterface::show()
 
 void QtUserInterface::updateCallback()
 {
-  updatePressed();
+  eventHandler().updatePressed();
 }
 
 
 void QtUserInterface::rowDoubleClicked(QTableWidgetItem* item_ptr)
 {
-  rowClicked(list.row(item_ptr));
+  eventHandler().rowClicked(list.row(item_ptr));
 }
 
 
@@ -109,5 +118,19 @@ void QtUserInterface::setTagsString(const std::string &arg)
 
 void QtUserInterface::timeoutCallback()
 {
-  timeoutOccurred();
+  eventHandler().timeoutOccurred();
+}
+
+
+void QtUserInterface::updateOptionActivated(int index)
+{
+  eventHandler().updateOptionSelected(index);
+}
+
+
+void QtUserInterface::setUpdateOptions(const UpdateOptions &update_options)
+{
+  for (const auto &option : update_options) {
+    update_combo_box.addItem(option.text.c_str());
+  }
 }

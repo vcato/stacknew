@@ -2,6 +2,7 @@
 #define LISTENTRIES_HPP_
 
 #include <vector>
+#include <string>
 
 
 struct ListEntry {
