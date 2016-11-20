@@ -102,8 +102,10 @@ static int getQuestions(const char *path,const string &escaped_tags)
 }
 
 
-Data::Data()
-: tags("c++")
+Data::Data(Storage& storage_arg,StackExchange& stack_exchange_arg)
+: storage(storage_arg),
+  stack_exchange(stack_exchange_arg),
+  tags("c++")
 {
   readExisting();
 }

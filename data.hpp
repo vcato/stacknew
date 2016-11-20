@@ -3,13 +3,22 @@
 
 #include "questions.hpp"
 
+struct Storage {
+};
+
+
+struct StackExchange {
+};
+
 
 struct Data {
-  Data();
+  Data(Storage &,StackExchange &);
 
   void readExisting();
   void update();
 
+  Storage &storage;
+  StackExchange &stack_exchange;
   Questions old_questions;
   Questions new_questions;
   std::string tags;

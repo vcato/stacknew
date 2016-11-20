@@ -8,7 +8,28 @@ namespace {
   struct FakeUserInterface : UserInterface {
     virtual void setTags(std::string &arg) { tags = arg; }
 
+    virtual void show() { shown = true; }
+
+    virtual void fillList(const ListEntries &arg)
+    {
+      list_entries = arg;
+    }
+
     string tags;
+    bool shown = false;
+    ListEntries list_entries;
+  };
+}
+
+
+namespace {
+  struct FakeStorage : Storage {
+  };
+}
+
+
+namespace {
+  struct FakeStackExchange : StackExchange {
   };
 }
 
@@ -17,7 +38,9 @@ int main()
 {
 #if 0
   FakeUserInterface user_interface;
-  Data data;
+  FakeStorage storage;
+  FakeStackExchange stack_exchange;
+  Data data{storage,stack_exchange};
   Controller controller{user_interface,data};
 #endif
 }
