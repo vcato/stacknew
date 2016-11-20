@@ -10,6 +10,7 @@
 #include <Poco/URI.h>
 #include <Poco/StreamCopier.h>
 #include <Poco/InflatingStream.h>
+#include <QUrl>
 #include <QDesktopServices>
 #include "escapedtags.hpp"
 #include "playsound.hpp"
@@ -127,4 +128,11 @@ void RealSystem::updateStoredQuestions(const string &tags)
 void RealSystem::playNewQuestionsSound()
 {
   playSound("/usr/share/scratch/Media/Sounds/Effects/Pop.wav");
+}
+
+
+void RealSystem::openLink(const string &link)
+{
+  QUrl url(link.c_str());
+  QDesktopServices::openUrl(url);
 }

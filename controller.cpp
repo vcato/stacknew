@@ -1,7 +1,6 @@
 #include "controller.hpp"
 
 #include "playsound.hpp"
-#include "openlink.hpp"
 #include "makelistentries.hpp"
 
 
@@ -60,7 +59,7 @@ void Controller::runApplication()
 
 void Controller::rowClicked(int row)
 {
-  openLink(data.new_questions[row].link);
+  system.openLink(data.new_questions[row].link);
 }
 
 

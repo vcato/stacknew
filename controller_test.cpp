@@ -43,6 +43,11 @@ namespace {
       cerr << "tags=" << tags << "\n";
       assert(false);
     }
+
+    virtual void playNewQuestionsSound()
+    {
+      assert(false);
+    }
   };
 }
 
@@ -51,8 +56,7 @@ int main()
 {
 #if 0
   FakeUserInterface user_interface;
-  FakeDataAccessor data_accessor;
-  Data data{data_accessor};
-  Controller controller{user_interface,data};
+  FakeSystem system;
+  Controller controller{user_interface,system};
 #endif
 }
