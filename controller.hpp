@@ -15,8 +15,6 @@ class Controller {
 
   private:
     struct Data {
-      Data(System&);
-
       void readExisting(System&);
       void update(System&,const std::string &tags);
 
@@ -28,7 +26,7 @@ class Controller {
     Data data;
     System &system;
 
-    void rowClicked(int row);
+    void rowClicked(size_t row);
     void updatePressed();
     bool updateList();
 };

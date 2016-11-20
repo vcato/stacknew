@@ -93,7 +93,7 @@ void QtUserInterface::updateCallback()
 
 void QtUserInterface::rowDoubleClicked(QTableWidgetItem* item_ptr)
 {
-  row_clicked_func(list.row(item_ptr));
+  rowClicked(list.row(item_ptr));
 }
 
 

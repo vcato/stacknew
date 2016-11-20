@@ -16,6 +16,7 @@ class UserInterface {
     virtual void fillList(const ListEntries &list_entries) = 0;
 
     void updatePressed();
+    void rowClicked(size_t row);
 };
 
 #endif /* USERINTERFACE_HPP_ */

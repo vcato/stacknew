@@ -1,5 +1,6 @@
 #include "controller.hpp"
 
+#include <cassert>
 #include "makelistentries.hpp"
 
 
@@ -13,12 +14,6 @@ static bool anyAreNew(const ListEntries &new_entries)
   }
 
   return false;
-}
-
-
-Controller::Data::Data(System& system)
-{
-  readExisting(system);
 }
 
 
@@ -42,24 +37,25 @@ Controller::Controller(
   System& system_arg
 )
 : user_interface(user_interface_arg),
-  data(system_arg),
   system(system_arg)
 {
   user_interface.row_clicked_func = [&](int row) { rowClicked(row); };
   user_interface.update_func = [&]() { updatePressed(); };
-  updateList();
-  user_interface.setTagsString(defaultTags());
 }
 
 
 void Controller::runApplication()
 {
+  data.readExisting(system);
+  updateList();
+  user_interface.setTagsString(defaultTags());
   user_interface.show();
 }
 
 
-void Controller::rowClicked(int row)
+void Controller::rowClicked(size_t row)
 {
+  assert(row<data.new_questions.size());
   system.openLink(data.new_questions[row].link);
 }
 

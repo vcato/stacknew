@@ -30,6 +30,12 @@ namespace {
       tags = tags_arg;
     }
 
+    void userDoubleClicksOnRow(size_t row)
+    {
+      assert(row<list_entries.size());
+      rowClicked(row);
+    }
+
     string tags;
     bool is_shown = false;
     ListEntries list_entries;
@@ -46,26 +52,30 @@ namespace {
 
     Questions readStoredNewQuestions() override
     {
-      return {};
+      return stored_new_questions;
     }
 
     void updateStoredQuestions(const std::string & tags) override
     {
       query_tags = tags;
+      stored_new_questions = pending_questions;
     }
 
     void playNewQuestionsSound() override
     {
-      assert(false);
+      new_questions_sound_was_played = true;
     }
 
     void openLink(const std::string &link) override
     {
-      cerr << "link=" << link << "\n";
-      assert(false);
+      opened_link = link;
     }
 
     string query_tags;
+    string opened_link;
+    Questions stored_new_questions;
+    Questions pending_questions;
+    bool new_questions_sound_was_played = false;
   };
 }
 
@@ -78,17 +88,18 @@ namespace {
 
     TestHarness()
     {
-      controller.runApplication();
     }
 
     void testRunningApplication()
     {
+      controller.runApplication();
       assert(user_interface.is_shown);
     }
 
 
     void testPressingUpdate()
     {
+      controller.runApplication();
       user_interface.userPressesUpdate();
       assert(system.query_tags==Controller::defaultTags());
     }
@@ -96,9 +107,30 @@ namespace {
 
     void testChangingTagsAndPressingUpdate()
     {
+      controller.runApplication();
       user_interface.userChangesTagsTo("c++ c++14");
       user_interface.userPressesUpdate();
       assert(system.query_tags=="c++ c++14");
+    }
+
+    void testNewQuestionsMakeASound()
+    {
+      controller.runApplication();
+      system.pending_questions = {
+        {"title","link",1234,1}
+      };
+      user_interface.userPressesUpdate();
+      assert(system.new_questions_sound_was_played);
+    }
+
+    void testOpeningAQuestion()
+    {
+      system.stored_new_questions = {
+        {"title","link",1234,1}
+      };
+      controller.runApplication();
+      user_interface.userDoubleClicksOnRow(0);
+      assert(system.opened_link == "link");
     }
   };
 }
@@ -109,4 +141,6 @@ int main()
   TestHarness().testRunningApplication();
   TestHarness().testPressingUpdate();
   TestHarness().testChangingTagsAndPressingUpdate();
+  TestHarness().testNewQuestionsMakeASound();
+  TestHarness().testOpeningAQuestion();
 }
