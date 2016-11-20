@@ -6,4 +6,5 @@ struct RealSystem : System {
   Questions readStoredOldQuestions() override;
   Questions readStoredNewQuestions() override;
   void updateStoredQuestions(const std::string &tags) override;
+  void playNewQuestionsSound() override;
 };

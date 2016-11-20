@@ -12,6 +12,7 @@
 #include <Poco/InflatingStream.h>
 #include <QDesktopServices>
 #include "escapedtags.hpp"
+#include "playsound.hpp"
 
 
 using std::ifstream;
@@ -120,4 +121,10 @@ void RealSystem::updateStoredQuestions(const string &tags)
   rename(new_questions_path,old_questions_path);
   string escaped_tags = escapedTags(tags);
   getQuestions(new_questions_path,escaped_tags);
+}
+
+
+void RealSystem::playNewQuestionsSound()
+{
+  playSound("/usr/share/scratch/Media/Sounds/Effects/Pop.wav");
 }

@@ -5,12 +5,6 @@
 #include "makelistentries.hpp"
 
 
-static void playNewQuestionsSound()
-{
-  playSound("/usr/share/scratch/Media/Sounds/Effects/Pop.wav");
-}
-
-
 static bool anyAreNew(const ListEntries &new_entries)
 {
   for (const auto& entry : new_entries) {
@@ -76,7 +70,7 @@ void Controller::updatePressed()
   bool any_are_new = updateList();
 
   if (any_are_new) {
-    playNewQuestionsSound();
+    system.playNewQuestionsSound();
   }
 }
 
