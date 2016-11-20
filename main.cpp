@@ -1,13 +1,13 @@
 #include "data.hpp"
 #include "qtuserinterface.hpp"
 #include "controller.hpp"
-#include "realdataaccessor.hpp"
+#include "realsystem.hpp"
 
 
 int main(int argc,char** argv)
 {
-  RealDataAccessor data_accessor;
-  Data data(data_accessor);
+  RealSystem system;
+  Data data(system);
 
   QtUserInterface user_interface(argc,argv);
   user_interface.create();

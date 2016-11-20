@@ -1,7 +1,11 @@
 #include "controller.hpp"
 
+#include <iostream>
+#include <cassert>
+
 
 using std::string;
+using std::cerr;
 
 
 namespace {
@@ -23,7 +27,22 @@ namespace {
 
 
 namespace {
-  struct FakeDataAccessor : DataAccessor {
+  struct FakeSystem : System {
+    virtual Questions readStoredOldQuestions()
+    {
+      assert(false);
+    }
+
+    virtual Questions readStoredNewQuestions()
+    {
+      assert(false);
+    }
+
+    virtual void updateStoredQuestions(const std::string &tags)
+    {
+      cerr << "tags=" << tags << "\n";
+      assert(false);
+    }
   };
 }
 

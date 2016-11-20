@@ -1,4 +1,4 @@
-#include "dataaccessor.hpp"
+#include "realsystem.hpp"
 
 
 #include <fstream>
@@ -103,19 +103,19 @@ static int getQuestions(const char *path,const string &escaped_tags)
 }
 
 
-Questions RealDataAccessor::readStoredOldQuestions()
+Questions RealSystem::readStoredOldQuestions()
 {
   return readQuestionsFrom(old_questions_path);
 }
 
 
-Questions RealDataAccessor::readStoredNewQuestions()
+Questions RealSystem::readStoredNewQuestions()
 {
   return readQuestionsFrom(new_questions_path);
 }
 
 
-void RealDataAccessor::updateStoredQuestions(const string &tags)
+void RealSystem::updateStoredQuestions(const string &tags)
 {
   rename(new_questions_path,old_questions_path);
   string escaped_tags = escapedTags(tags);
