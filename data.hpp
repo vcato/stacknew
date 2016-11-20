@@ -2,10 +2,7 @@
 #define DATA_HPP_
 
 #include "questions.hpp"
-
-struct Storage {
-};
-
+#include "storage.hpp"
 
 struct StackExchange {
 };
