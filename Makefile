@@ -7,7 +7,7 @@ all:
 	$(MAKE) run_unit_tests
 	$(MAKE) stacknew
 
-stacknew: main.o data.o qtuserinterface.o controller.o \
+stacknew: main.o qtuserinterface.o controller.o \
   decodedstring.o makelistentries.o openlink.o \
   playsound.o qtuserinterface_moc.o escapedtags.o realsystem.o
 	$(CXX) -o $@ $^ -lPocoNet -lPocoFoundation -ljsoncpp $(LIBS)

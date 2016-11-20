@@ -21,9 +21,35 @@ static bool anyAreNew(const ListEntries &new_entries)
 }
 
 
-Controller::Controller(UserInterface &user_interface_arg,Data &data_arg)
+Controller::Data::Data(System& system)
+: tags("c++")
+{
+  readExisting(system);
+}
+
+
+void Controller::Data::readExisting(System& system)
+{
+  old_questions = system.readStoredOldQuestions();
+  new_questions = system.readStoredNewQuestions();
+}
+
+
+void Controller::Data::update(System& system)
+{
+  system.updateStoredQuestions(tags);
+  old_questions = new_questions;
+  new_questions = system.readStoredNewQuestions();
+}
+
+
+Controller::Controller(
+  UserInterface& user_interface_arg,
+  System& system_arg
+)
 : user_interface(user_interface_arg),
-  data(data_arg)
+  data(system_arg),
+  system(system_arg)
 {
   user_interface.row_clicked_func = [&](int row) { rowClicked(row); };
   user_interface.update_func = [&]() { updatePressed(); };
@@ -46,7 +72,7 @@ void Controller::rowClicked(int row)
 
 void Controller::updatePressed()
 {
-  data.update();
+  data.update(system);
   bool any_are_new = updateList();
 
   if (any_are_new) {

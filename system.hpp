@@ -1,6 +1,8 @@
 #ifndef SYSTEM_HPP_
 #define SYSTEM_HPP_
 
+#include "questions.hpp"
+
 struct System {
   virtual Questions readStoredOldQuestions() = 0;
   virtual Questions readStoredNewQuestions() = 0;
