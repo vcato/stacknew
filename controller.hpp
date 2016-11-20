@@ -1,15 +1,15 @@
-#include "qtuserinterface.hpp"
+#include "userinterface.hpp"
 #include "data.hpp"
 
 
 class Controller {
   public:
-    Controller(QtUserInterface &user_interface_arg,Data &data_arg);
+    Controller(UserInterface &user_interface_arg,Data &data_arg);
 
     void runApplication();
 
   private:
-    QtUserInterface &user_interface;
+    UserInterface &user_interface;
     Data &data;
 
     void rowClicked(int row);

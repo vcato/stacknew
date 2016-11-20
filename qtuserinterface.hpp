@@ -1,5 +1,5 @@
-#ifndef USERINTERFACE_HPP_
-#define USERINTERFACE_HPP_
+#ifndef QTUSERINTERFACE_HPP_
+#define QTUSERINTERFACE_HPP_
 
 #include <functional>
 #include <vector>
@@ -22,9 +22,9 @@ class QtUserInterface : public QObject, public UserInterface {
     QtUserInterface(int &argc,char** const argv);
 
     void create();
-    void fillList(const std::vector<ListEntry> &list_entries);
+    void fillList(const std::vector<ListEntry> &list_entries) override;
     void setTags(std::string &) override;
-    void show();
+    void show() override;
 
   private:
     QApplication app;
@@ -43,4 +43,4 @@ class QtUserInterface : public QObject, public UserInterface {
     void rowDoubleClicked(QTableWidgetItem*);
 };
 
-#endif /* USERINTERFACE_HPP_ */
+#endif /* QTUSERINTERFACE_HPP_ */

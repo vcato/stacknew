@@ -1,8 +1,14 @@
 #include "controller.hpp"
 
 
+using std::string;
+
+
 namespace {
   struct FakeUserInterface : UserInterface {
+    virtual void setTags(std::string &arg) { tags = arg; }
+
+    string tags;
   };
 }
 

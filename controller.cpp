@@ -21,7 +21,7 @@ static bool anyAreNew(const ListEntries &new_entries)
 }
 
 
-Controller::Controller(QtUserInterface &user_interface_arg,Data &data_arg)
+Controller::Controller(UserInterface &user_interface_arg,Data &data_arg)
 : user_interface(user_interface_arg),
   data(data_arg)
 {
