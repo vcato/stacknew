@@ -23,7 +23,7 @@ class QtUserInterface : public QObject, public UserInterface {
 
     void create();
     void fillList(const std::vector<ListEntry> &list_entries);
-    void setTags(std::string &);
+    void setTags(std::string &) override;
     void show();
 
   private:
