@@ -5,7 +5,8 @@
 
 int main(int argc,char** argv)
 {
-  Data data;
+  DataAccessor data_accessor;
+  Data data(data_accessor);
 
   QtUserInterface user_interface(argc,argv);
   user_interface.create();

@@ -1,8 +1,9 @@
 #include "data.hpp"
 
 
-Data::Data()
-: tags("c++")
+Data::Data(DataAccessor &data_accessor_arg)
+: data_accessor(data_accessor_arg),
+  tags("c++")
 {
   readExisting();
 }
@@ -10,14 +11,14 @@ Data::Data()
 
 void Data::readExisting()
 {
-  old_questions = readStoredOldQuestions();
-  new_questions = readStoredNewQuestions();
+  old_questions = data_accessor.readStoredOldQuestions();
+  new_questions = data_accessor.readStoredNewQuestions();
 }
 
 
 void Data::update()
 {
-  updateStoredQuestions(tags);
+  data_accessor.updateStoredQuestions(tags);
   old_questions = new_questions;
-  new_questions = readStoredNewQuestions();
+  new_questions = data_accessor.readStoredNewQuestions();
 }

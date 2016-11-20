@@ -5,13 +5,14 @@
 #include "dataaccessor.hpp"
 
 
-class Data : public DataAccessor {
+class Data {
   public:
-    Data();
+    Data(DataAccessor &);
 
     void readExisting();
     void update();
 
+    DataAccessor &data_accessor;
     Questions old_questions;
     Questions new_questions;
     std::string tags;
