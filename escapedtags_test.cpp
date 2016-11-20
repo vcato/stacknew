@@ -8,7 +8,6 @@ using std::string;
 
 int main()
 {
-  string tags = "c++";
-  string escaped_tags = escapedTags(tags);
-  assert(escaped_tags=="c%2B%2B");
+  assert(escapedTags("c++")=="c%2B%2B");
+  assert(escapedTags("c++ c++14")=="c%2B%2B;c%2B%2B14");
 }

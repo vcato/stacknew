@@ -2,10 +2,10 @@
 
 #include <iostream>
 #include <QHeaderView>
+#include "listentries.hpp"
 
 
 using std::string;
-using std::vector;
 using std::cerr;
 
 
@@ -44,7 +44,7 @@ void UserInterface::setCellText(int row,int col,const string &text,bool is_new)
 }
 
 
-void UserInterface::fillList(const vector<ListEntry> &list_entries)
+void UserInterface::fillList(const ListEntries &list_entries)
 {
   int n_entries = list_entries.size();
   list.setRowCount(n_entries);
