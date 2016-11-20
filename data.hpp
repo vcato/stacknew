@@ -11,17 +11,23 @@ struct StackExchange {
 };
 
 
-struct Data {
-  Data(Storage &,StackExchange &);
+class Data {
+  public:
+    Data(Storage &,StackExchange &);
 
-  void readExisting();
-  void update();
+    void readExisting();
+    void update();
 
-  Storage &storage;
-  StackExchange &stack_exchange;
-  Questions old_questions;
-  Questions new_questions;
-  std::string tags;
+    Questions old_questions;
+    Questions new_questions;
+    std::string tags;
+
+  private:
+    Storage &storage;
+    StackExchange &stack_exchange;
+
+    Questions readOldQuestions();
+    Questions readNewQuestions();
 };
 
 #endif /* DATA_HPP_ */

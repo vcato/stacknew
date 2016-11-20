@@ -103,18 +103,30 @@ static int getQuestions(const char *path,const string &escaped_tags)
 
 
 Data::Data(Storage& storage_arg,StackExchange& stack_exchange_arg)
-: storage(storage_arg),
-  stack_exchange(stack_exchange_arg),
-  tags("c++")
+: tags("c++"),
+  storage(storage_arg),
+  stack_exchange(stack_exchange_arg)
 {
   readExisting();
 }
 
 
+Questions Data::readOldQuestions()
+{
+  return readQuestionsFrom(old_questions_path);
+}
+
+
+Questions Data::readNewQuestions()
+{
+  return readQuestionsFrom(new_questions_path);
+}
+
+
 void Data::readExisting()
 {
-  old_questions = readQuestionsFrom(old_questions_path);
-  new_questions = readQuestionsFrom(new_questions_path);
+  old_questions = readOldQuestions();
+  new_questions = readNewQuestions();
 }
 
 

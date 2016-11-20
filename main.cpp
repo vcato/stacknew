@@ -1,12 +1,7 @@
 #include "data.hpp"
 #include "qtuserinterface.hpp"
 #include "controller.hpp"
-
-
-namespace {
-  struct RealStorage : Storage {
-  };
-}
+#include "realstorage.hpp"
 
 
 namespace {
