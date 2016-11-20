@@ -7,7 +7,9 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QPushButton>
+#include <QLineEdit>
 #include <QBoxLayout>
+#include <QLabel>
 #include "listentry.hpp"
 
 
@@ -19,6 +21,7 @@ class UserInterface : public QObject {
 
     void create();
     void fillList(const std::vector<ListEntry> &list_entries);
+    void setTags(std::string &);
     void show();
 
     std::function<void(int row)> row_clicked_func;
@@ -28,6 +31,9 @@ class UserInterface : public QObject {
     QApplication app;
     QWidget widget;
     QVBoxLayout layout;
+    QHBoxLayout tags_layout;
+    QLabel tags_label{"Tags:"};
+    QLineEdit tags_field;
     QPushButton update_button{"Update"};
     QTableWidget list;
 

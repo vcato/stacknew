@@ -27,9 +27,8 @@ Controller::Controller(UserInterface &user_interface_arg,Data &data_arg)
 {
   user_interface.row_clicked_func = [&](int row) { rowClicked(row); };
   user_interface.update_func = [&]() { updatePressed(); };
-  user_interface.fillList(
-    makeListEntries(data.old_questions,data.new_questions)
-  );
+  updateList();
+  user_interface.setTags(data.tags);
 }
 
 
@@ -48,10 +47,17 @@ void Controller::rowClicked(int row)
 void Controller::updatePressed()
 {
   data.update();
-  ListEntries entries =
-    makeListEntries(data.old_questions,data.new_questions);
-  user_interface.fillList(entries);
-  if (anyAreNew(entries)) {
+  bool any_are_new = updateList();
+
+  if (any_are_new) {
     playNewQuestionsSound();
   }
+}
+
+
+bool Controller::updateList()
+{
+  ListEntries entries = makeListEntries(data.old_questions,data.new_questions);
+  user_interface.fillList(entries);
+  return anyAreNew(entries);
 }

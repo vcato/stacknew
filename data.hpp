@@ -12,6 +12,7 @@ struct Data {
 
   Questions old_questions;
   Questions new_questions;
+  std::string tags;
 };
 
 #endif /* DATA_HPP_ */

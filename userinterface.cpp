@@ -18,6 +18,9 @@ UserInterface::UserInterface(int &argc,char** const argv)
 void UserInterface::create()
 {
   widget.setLayout(&layout);
+  layout.addLayout(&tags_layout);
+  tags_layout.addWidget(&tags_label);
+  tags_layout.addWidget(&tags_field);
   layout.addWidget(&update_button);
   layout.addWidget(&list);
   connect(&update_button,SIGNAL(clicked()),SLOT(updatePressed()));
@@ -84,4 +87,10 @@ void UserInterface::updatePressed()
 void UserInterface::rowDoubleClicked(QTableWidgetItem* item_ptr)
 {
   row_clicked_func(list.row(item_ptr));
+}
+
+
+void UserInterface::setTags(std::string &arg)
+{
+  tags_field.setText(arg.c_str());
 }

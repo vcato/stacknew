@@ -10,11 +10,13 @@
 #include <Poco/StreamCopier.h>
 #include <Poco/InflatingStream.h>
 #include <QDesktopServices>
+#include "escapedtags.hpp"
 
 
 using std::ifstream;
 using std::istream;
 using std::cerr;
+using std::string;
 namespace Net = Poco::Net;
 using Net::HTTPResponse;
 
@@ -65,13 +67,13 @@ static Questions readQuestionsFrom(const char *path)
 }
 
 
-static int getQuestions(const char *path)
+static int getQuestions(const char *path,const string &escaped_tags)
 {
-  std::string path_and_query =
+  string path_and_query =
     "/2.2/questions"
     "?order=desc"
     "&sort=creation"
-    "&tagged=c%2B%2B"
+    "&tagged="+escaped_tags+
     "&filter=default"
     "&site=stackoverflow"
     "&run=true";
@@ -101,6 +103,7 @@ static int getQuestions(const char *path)
 
 
 Data::Data()
+: tags("c++")
 {
   readExisting();
 }
@@ -116,7 +119,8 @@ void Data::readExisting()
 void Data::update()
 {
   rename(new_questions_path,old_questions_path);
-  getQuestions(new_questions_path);
+  string escaped_tags = escapedTags(tags);
+  getQuestions(new_questions_path,escaped_tags);
   old_questions = new_questions;
   new_questions = readQuestionsFrom(new_questions_path);
 }

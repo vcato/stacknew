@@ -14,4 +14,5 @@ class Controller {
 
     void rowClicked(int row);
     void updatePressed();
+    bool updateList();
 };

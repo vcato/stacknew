@@ -9,16 +9,22 @@ all:
 
 stacknew: main.o data.o userinterface.o controller.o \
   decodedstring.o makelistentries.o openlink.o \
-  playsound.o userinterface_moc.o
+  playsound.o userinterface_moc.o escapedtags.o
 	$(CXX) -o $@ $^ -lPocoNet -lPocoFoundation -ljsoncpp $(LIBS)
 
-run_unit_tests: decodedstring_test.pass makelistentries_test.pass
+run_unit_tests: \
+  decodedstring_test.pass \
+  makelistentries_test.pass \
+  escapedtags_test.pass
 	
 
 decodedstring_test: decodedstring_test.o decodedstring.o
 	$(CXX) -o $@ $^
 
 makelistentries_test: makelistentries_test.o makelistentries.o decodedstring.o
+	$(CXX) -o $@ $^
+
+escapedtags_test: escapedtags_test.o escapedtags.o
 	$(CXX) -o $@ $^
 
 %.pass: %
