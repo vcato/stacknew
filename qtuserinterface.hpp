@@ -11,9 +11,11 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include "listentry.hpp"
+#include "userinterface.hpp"
 
 
-class QtUserInterface : public QObject {
+
+class QtUserInterface : public QObject, public UserInterface {
     Q_OBJECT
 
   public:
@@ -23,9 +25,6 @@ class QtUserInterface : public QObject {
     void fillList(const std::vector<ListEntry> &list_entries);
     void setTags(std::string &);
     void show();
-
-    std::function<void(int row)> row_clicked_func;
-    std::function<void()>        update_func;
 
   private:
     QApplication app;
