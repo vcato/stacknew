@@ -50,13 +50,15 @@ static Questions getQuestionsFrom(const Json::Value &root_value)
   const Value& items_value = root_value["items"];
 
   for (const auto& item_value : items_value) {
-    Question question;
-    question.title         = item_value["title"].asString();
-    question.link          = item_value["link"].asString();
-    question.creation_date = item_value["creation_date"].asInt64();
-    question.id            = item_value["question_id"].asInt();
+    if (item_value["closed_date"].asString()=="") {
+      Question question;
+      question.title         = item_value["title"].asString();
+      question.link          = item_value["link"].asString();
+      question.creation_date = item_value["creation_date"].asInt64();
+      question.id            = item_value["question_id"].asInt();
 
-    result.push_back(question);
+      result.push_back(question);
+    }
   }
 
   return result;

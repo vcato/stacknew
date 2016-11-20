@@ -23,8 +23,8 @@ class Controller {
     };
 
     UserInterface &user_interface;
-    Data data;
     System &system;
+    Data data;
 
     void rowClicked(size_t row);
     void updatePressed();
