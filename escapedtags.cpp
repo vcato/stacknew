@@ -1,23 +1,20 @@
 #include "escapedtags.hpp"
 
-#include <iostream>
+#include <vector>
+#include "replacedstring.hpp"
 
 using std::string;
-using std::cerr;
+using std::vector;
+
+
+
+static const vector<Replacement> replacements = {
+  {"+","%2B"},
+  {" ",";"}
+};
 
 
 string escapedTags(const string &tags)
 {
-  string s = tags;
-
-  for (size_t index = 0; index!=s.size(); ++index) {
-    if (s.compare(index,1,"+")==0) {
-      s.replace(index,1,"%2B");
-    }
-    if (s.compare(index,1," ")==0) {
-      s.replace(index,1,";");
-    }
-  }
-
-  return s;
+  return replacedString(tags,replacements);
 }

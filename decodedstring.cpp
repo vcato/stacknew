@@ -1,28 +1,22 @@
 #include "decodedstring.hpp"
 
-#include <iostream>
+#include <vector>
+#include "replacedstring.hpp"
 
 
 using std::string;
-using std::cerr;
+using std::vector;
+
+
+static const vector<Replacement> replacements = {
+  {"&gt;",   ">"},
+  {"&lt;",   "<"},
+  {"&quot;", "\""},
+  {"&#39;",  "'"}
+};
 
 
 string decodedString(string s)
 {
-  for (size_t index = 0; index!=s.size(); ++index) {
-    if (s.compare(index,4,"&gt;")==0) {
-      s.replace(index,4,">");
-    }
-    if (s.compare(index,4,"&lt;")==0) {
-      s.replace(index,4,"<");
-    }
-    if (s.compare(index,6,"&quot;")==0) {
-      s.replace(index,6,"\"");
-    }
-    if (s.compare(index,5,"&#39;")==0) {
-      s.replace(index,5,"'");
-    }
-  }
-
-  return s;
+  return replacedString(s,replacements);
 }
