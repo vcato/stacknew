@@ -1,20 +1,11 @@
 #include "data.hpp"
 #include "qtuserinterface.hpp"
 #include "controller.hpp"
-#include "realstorage.hpp"
-
-
-namespace {
-  struct RealStackExchange : StackExchange {
-  };
-}
 
 
 int main(int argc,char** argv)
 {
-  RealStorage storage;
-  RealStackExchange stack_exchange;
-  Data data{storage,stack_exchange};
+  Data data;
 
   QtUserInterface user_interface(argc,argv);
   user_interface.create();

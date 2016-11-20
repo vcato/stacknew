@@ -2,15 +2,11 @@
 #define DATA_HPP_
 
 #include "questions.hpp"
-#include "storage.hpp"
-
-struct StackExchange {
-};
 
 
 class Data {
   public:
-    Data(Storage &,StackExchange &);
+    Data();
 
     void readExisting();
     void update();
@@ -20,9 +16,6 @@ class Data {
     std::string tags;
 
   private:
-    Storage &storage;
-    StackExchange &stack_exchange;
-
     Questions readOldQuestions();
     Questions readNewQuestions();
 };

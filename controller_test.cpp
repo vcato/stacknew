@@ -22,18 +22,6 @@ namespace {
 }
 
 
-namespace {
-  struct FakeStorage : Storage {
-  };
-}
-
-
-namespace {
-  struct FakeStackExchange : StackExchange {
-  };
-}
-
-
 int main()
 {
 #if 0
