@@ -11,6 +11,8 @@ class Controller {
 
     void runApplication();
 
+    static std::string defaultTags() { return "c++ c++11 c++14 c++17"; }
+
   private:
     struct Data {
       Data(System&);

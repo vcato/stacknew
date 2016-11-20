@@ -90,7 +90,7 @@ namespace {
     void testPressingUpdate()
     {
       user_interface.userPressesUpdate();
-      assert(system.query_tags=="c++");
+      assert(system.query_tags==Controller::defaultTags());
     }
 
 

@@ -48,7 +48,7 @@ Controller::Controller(
   user_interface.row_clicked_func = [&](int row) { rowClicked(row); };
   user_interface.update_func = [&]() { updatePressed(); };
   updateList();
-  user_interface.setTagsString("c++");
+  user_interface.setTagsString(defaultTags());
 }
 
 

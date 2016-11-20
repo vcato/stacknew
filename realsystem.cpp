@@ -78,7 +78,7 @@ static Questions readQuestionsFrom(const char *path)
 static int getQuestions(const char *path,const string &escaped_tags)
 {
   string path_and_query =
-    "/2.2/questions"
+    "/2.2/search"
     "?order=desc"
     "&sort=creation"
     "&tagged="+escaped_tags+
