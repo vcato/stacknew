@@ -21,7 +21,6 @@ class QtUserInterface : public QObject, public UserInterface {
   public:
     QtUserInterface(int &argc,char** const argv);
 
-    void create();
     void fillList(const std::vector<ListEntry> &list_entries) override;
     std::string tagsString() override;
     void setTagsString(const std::string &) override;

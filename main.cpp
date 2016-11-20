@@ -5,11 +5,9 @@
 
 int main(int argc,char** argv)
 {
-  RealSystem system;
-
   QtUserInterface user_interface(argc,argv);
-  user_interface.create();
-
+  RealSystem system;
   Controller controller{user_interface,system};
+
   controller.runApplication();
 }

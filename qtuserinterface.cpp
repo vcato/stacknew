@@ -12,11 +12,6 @@ using std::cerr;
 QtUserInterface::QtUserInterface(int &argc,char** const argv)
 : app(argc,argv)
 {
-}
-
-
-void QtUserInterface::create()
-{
   widget.setLayout(&layout);
   layout.addLayout(&tags_layout);
   tags_layout.addWidget(&tags_label);
