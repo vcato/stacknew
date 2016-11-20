@@ -13,11 +13,11 @@
 #include "listentry.hpp"
 
 
-class UserInterface : public QObject {
+class QtUserInterface : public QObject {
     Q_OBJECT
 
   public:
-    UserInterface(int &argc,char** const argv);
+    QtUserInterface(int &argc,char** const argv);
 
     void create();
     void fillList(const std::vector<ListEntry> &list_entries);

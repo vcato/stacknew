@@ -1,4 +1,4 @@
-#include "userinterface.hpp"
+#include "qtuserinterface.hpp"
 
 #include <iostream>
 #include <QHeaderView>
@@ -9,13 +9,13 @@ using std::string;
 using std::cerr;
 
 
-UserInterface::UserInterface(int &argc,char** const argv)
+QtUserInterface::QtUserInterface(int &argc,char** const argv)
 : app(argc,argv)
 {
 }
 
 
-void UserInterface::create()
+void QtUserInterface::create()
 {
   widget.setLayout(&layout);
   layout.addLayout(&tags_layout);
@@ -32,7 +32,8 @@ void UserInterface::create()
 }
 
 
-void UserInterface::setCellText(int row,int col,const string &text,bool is_new)
+void
+  QtUserInterface::setCellText(int row,int col,const string &text,bool is_new)
 {
   auto* item_ptr = new QTableWidgetItem(text.c_str());
 
@@ -44,7 +45,7 @@ void UserInterface::setCellText(int row,int col,const string &text,bool is_new)
 }
 
 
-void UserInterface::fillList(const ListEntries &list_entries)
+void QtUserInterface::fillList(const ListEntries &list_entries)
 {
   int n_entries = list_entries.size();
   list.setRowCount(n_entries);
@@ -71,26 +72,26 @@ void UserInterface::fillList(const ListEntries &list_entries)
 }
 
 
-void UserInterface::show()
+void QtUserInterface::show()
 {
   widget.show();
   app.exec();
 }
 
 
-void UserInterface::updatePressed()
+void QtUserInterface::updatePressed()
 {
   update_func();
 }
 
 
-void UserInterface::rowDoubleClicked(QTableWidgetItem* item_ptr)
+void QtUserInterface::rowDoubleClicked(QTableWidgetItem* item_ptr)
 {
   row_clicked_func(list.row(item_ptr));
 }
 
 
-void UserInterface::setTags(std::string &arg)
+void QtUserInterface::setTags(std::string &arg)
 {
   tags_field.setText(arg.c_str());
 }
