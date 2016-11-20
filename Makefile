@@ -15,7 +15,8 @@ stacknew: main.o data.o userinterface.o controller.o \
 run_unit_tests: \
   decodedstring_test.pass \
   makelistentries_test.pass \
-  escapedtags_test.pass
+  escapedtags_test.pass \
+  controller_test.pass
 	
 
 decodedstring_test: decodedstring_test.o decodedstring.o
@@ -25,6 +26,9 @@ makelistentries_test: makelistentries_test.o makelistentries.o decodedstring.o
 	$(CXX) -o $@ $^
 
 escapedtags_test: escapedtags_test.o escapedtags.o
+	$(CXX) -o $@ $^
+
+controller_test: controller_test.o
 	$(CXX) -o $@ $^
 
 %.pass: %
