@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <chrono>
 #include <jsoncpp/json/reader.h>
 #include <Poco/Net/HTTPClientSession.h>
 #include <Poco/Net/HTTPRequest.h>
@@ -19,6 +20,7 @@ using std::ifstream;
 using std::istream;
 using std::cerr;
 using std::string;
+namespace chrono = std::chrono;
 namespace Net = Poco::Net;
 using Net::HTTPResponse;
 
@@ -142,4 +144,13 @@ void RealSystem::openLink(const string &link)
 {
   QUrl url(link.c_str());
   QDesktopServices::openUrl(url);
+}
+
+
+double RealSystem::currentTime()
+{
+  auto now = chrono::system_clock::now();
+  chrono::duration<double> time_since_epoch_in_seconds_as_double =
+    chrono::duration_cast<chrono::seconds>(now.time_since_epoch());
+  return time_since_epoch_in_seconds_as_double.count();
 }

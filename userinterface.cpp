@@ -1,5 +1,10 @@
 #include "userinterface.hpp"
 
+#include <iostream>
+
+
+using std::cerr;
+
 
 void UserInterface::updatePressed()
 {
@@ -10,4 +15,10 @@ void UserInterface::updatePressed()
 void UserInterface::rowClicked(size_t row)
 {
   row_clicked_func(row);
+}
+
+
+void UserInterface::timeoutOccurred()
+{
+  timeout_func();
 }

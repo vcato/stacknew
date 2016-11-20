@@ -20,11 +20,6 @@ namespace {
       list_entries = arg;
     }
 
-    void userPressesUpdate()
-    {
-      updatePressed();
-    }
-
     void userChangesTagsTo(const string &tags_arg)
     {
       tags = tags_arg;
@@ -34,6 +29,10 @@ namespace {
     {
       assert(row<list_entries.size());
       rowClicked(row);
+    }
+
+    void enableTimeouts()
+    {
     }
 
     string tags;
@@ -59,6 +58,7 @@ namespace {
     {
       query_tags = tags;
       stored_new_questions = pending_questions;
+      ++query_count;
     }
 
     void playNewQuestionsSound() override
@@ -71,11 +71,18 @@ namespace {
       opened_link = link;
     }
 
+    double currentTime() override
+    {
+      return current_time;
+    }
+
     string query_tags;
     string opened_link;
+    double current_time = 0;
     Questions stored_new_questions;
     Questions pending_questions;
     bool new_questions_sound_was_played = false;
+    int query_count = 0;
   };
 }
 
@@ -100,7 +107,7 @@ namespace {
     void testPressingUpdate()
     {
       controller.runApplication();
-      user_interface.userPressesUpdate();
+      user_interface.updatePressed();
       assert(system.query_tags==Controller::defaultTags());
     }
 
@@ -109,7 +116,7 @@ namespace {
     {
       controller.runApplication();
       user_interface.userChangesTagsTo("c++ c++14");
-      user_interface.userPressesUpdate();
+      user_interface.updatePressed();
       assert(system.query_tags=="c++ c++14");
     }
 
@@ -119,7 +126,7 @@ namespace {
       system.pending_questions = {
         {"title","link",1234,1}
       };
-      user_interface.userPressesUpdate();
+      user_interface.updatePressed();
       assert(system.new_questions_sound_was_played);
     }
 
@@ -132,6 +139,17 @@ namespace {
       user_interface.userDoubleClicksOnRow(0);
       assert(system.opened_link == "link");
     }
+
+    void testAutomaticUpdates()
+    {
+      system.current_time = 100;
+      controller.runApplication();
+      user_interface.updatePressed();
+      system.current_time = 100+60;
+      system.query_count = 0;
+      user_interface.timeoutOccurred();
+      assert(system.query_count==1);
+    }
   };
 }
 
@@ -143,4 +161,5 @@ int main()
   TestHarness().testChangingTagsAndPressingUpdate();
   TestHarness().testNewQuestionsMakeASound();
   TestHarness().testOpeningAQuestion();
+  TestHarness().testAutomaticUpdates();
 }

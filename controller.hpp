@@ -16,6 +16,8 @@ class Controller {
 
       Questions old_questions;
       Questions new_questions;
+      double update_interval = 60;
+      double last_update_time = 0;
     };
 
     UserInterface &user_interface;
@@ -24,5 +26,8 @@ class Controller {
 
     void rowClicked(size_t row);
     void updatePressed();
+    void timeoutOccurred();
+
     bool updateList();
+    void update();
 };

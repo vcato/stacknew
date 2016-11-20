@@ -24,6 +24,7 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
     SIGNAL(itemDoubleClicked(QTableWidgetItem*)),
     SLOT(rowDoubleClicked(QTableWidgetItem*))
   );
+  connect(&timer,SIGNAL(timeout()),SLOT(timeoutCallback()));
 }
 
 
@@ -73,6 +74,14 @@ void QtUserInterface::fillList(const ListEntries &list_entries)
 }
 
 
+void QtUserInterface::enableTimeouts()
+{
+  int timeout_interval_in_seconds = 1;
+  int timeout_interval_in_milliseconds = timeout_interval_in_seconds*1000;
+  timer.start(timeout_interval_in_milliseconds);
+}
+
+
 void QtUserInterface::show()
 {
   widget.show();
@@ -95,4 +104,10 @@ void QtUserInterface::rowDoubleClicked(QTableWidgetItem* item_ptr)
 void QtUserInterface::setTagsString(const std::string &arg)
 {
   tags_field.setText(arg.c_str());
+}
+
+
+void QtUserInterface::timeoutCallback()
+{
+  timeoutOccurred();
 }

@@ -10,6 +10,7 @@
 #include <QLineEdit>
 #include <QBoxLayout>
 #include <QLabel>
+#include <QTimer>
 #include "listentries.hpp"
 #include "userinterface.hpp"
 
@@ -24,6 +25,7 @@ class QtUserInterface : public QObject, public UserInterface {
     void fillList(const ListEntries &list_entries) override;
     std::string tagsString() override;
     void setTagsString(const std::string &) override;
+    void enableTimeouts();
     void show() override;
 
   private:
@@ -34,6 +36,7 @@ class QtUserInterface : public QObject, public UserInterface {
     QLabel tags_label{"Tags:"};
     QLineEdit tags_field;
     QPushButton update_button{"Update"};
+    QTimer timer;
     QTableWidget list;
 
     void setCellText(int row,int col,const std::string &text,bool is_new);
@@ -41,6 +44,7 @@ class QtUserInterface : public QObject, public UserInterface {
   private slots:
     void updateCallback();
     void rowDoubleClicked(QTableWidgetItem*);
+    void timeoutCallback();
 };
 
 #endif /* QTUSERINTERFACE_HPP_ */

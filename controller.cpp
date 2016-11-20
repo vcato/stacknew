@@ -1,10 +1,12 @@
 #include "controller.hpp"
 
 #include <cassert>
+#include <iostream>
 #include "makelistentries.hpp"
 
 
 using std::string;
+using std::cerr;
 
 
 static bool anyAreNew(const ListEntries &new_entries)
@@ -27,6 +29,7 @@ void Controller::Data::readExisting(System& system)
 void Controller::Data::update(System& system,const string &tags)
 {
   system.updateStoredQuestions(tags);
+  last_update_time = system.currentTime();
   old_questions = new_questions;
   new_questions = system.readStoredNewQuestions();
 }
@@ -41,6 +44,7 @@ Controller::Controller(
 {
   user_interface.row_clicked_func = [&](int row) { rowClicked(row); };
   user_interface.update_func = [&]() { updatePressed(); };
+  user_interface.timeout_func = [&]() { timeoutOccurred(); };
 }
 
 
@@ -49,6 +53,7 @@ void Controller::runApplication()
   data.readExisting(system);
   updateList();
   user_interface.setTagsString(defaultTags());
+  user_interface.enableTimeouts();
   user_interface.show();
 }
 
@@ -61,6 +66,12 @@ void Controller::rowClicked(size_t row)
 
 
 void Controller::updatePressed()
+{
+  update();
+}
+
+
+void Controller::update()
 {
   string tags = user_interface.tagsString();
   data.update(system,tags);
@@ -77,4 +88,13 @@ bool Controller::updateList()
   ListEntries entries = makeListEntries(data.old_questions,data.new_questions);
   user_interface.fillList(entries);
   return anyAreNew(entries);
+}
+
+
+void Controller::timeoutOccurred()
+{
+  double time_since_last_update = system.currentTime()-data.last_update_time;
+  if (time_since_last_update>=data.update_interval) {
+    update();
+  }
 }

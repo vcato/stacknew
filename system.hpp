@@ -9,6 +9,7 @@ struct System {
   virtual void updateStoredQuestions(const std::string &tags) = 0;
   virtual void playNewQuestionsSound() = 0;
   virtual void openLink(const std::string &link) = 0;
+  virtual double currentTime() = 0;
 };
 
 #endif /* SYSTEM_HPP_ */

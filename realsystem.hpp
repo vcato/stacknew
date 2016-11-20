@@ -8,4 +8,5 @@ struct RealSystem : System {
   void updateStoredQuestions(const std::string &tags) override;
   void playNewQuestionsSound() override;
   void openLink(const std::string &link) override;
+  double currentTime() override;
 };
