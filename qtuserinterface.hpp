@@ -24,7 +24,7 @@ class QtUserInterface : public QObject, public UserInterface {
     QtUserInterface(int &argc,char** const argv);
 
     void setUpdateOptions(const UpdateOptions &) override;
-    void fillList(const ListEntries &list_entries) override;
+    void setListEntries(const ListEntries &list_entries) override;
     std::string tagsString() override;
     void setTagsString(const std::string &) override;
     void enableTimeouts();
@@ -45,6 +45,7 @@ class QtUserInterface : public QObject, public UserInterface {
     QComboBox update_combo_box;
     QTimer timer;
     QTableWidget list;
+    bool first_set = true;
 
     void setCellText(int row,int col,const std::string &text,bool is_new);
 

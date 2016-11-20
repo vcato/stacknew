@@ -18,7 +18,7 @@ namespace {
 
     void show() override { is_shown = true; }
 
-    void fillList(const ListEntries &arg) override
+    void setListEntries(const ListEntries &arg) override
     {
       list_entries = arg;
       selected_index = no_list_index;

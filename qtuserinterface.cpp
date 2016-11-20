@@ -64,7 +64,7 @@ string QtUserInterface::tagsString()
 }
 
 
-void QtUserInterface::fillList(const ListEntries &list_entries)
+void QtUserInterface::setListEntries(const ListEntries &list_entries)
 {
   int n_entries = list_entries.size();
   list.setRowCount(n_entries);
@@ -83,11 +83,16 @@ void QtUserInterface::fillList(const ListEntries &list_entries)
   }
 
   list.setEditTriggers(QAbstractItemView::NoEditTriggers);
-  list.resizeColumnsToContents();
-  list.setFixedSize(
-    list.horizontalHeader()->length() + 30,
-    500
-  );
+
+  // Prevent the list from changing width on subsequent updates.
+  if (first_set) {
+    list.resizeColumnsToContents();
+    list.setFixedSize(
+      list.horizontalHeader()->length() + 30,
+      500
+    );
+    first_set = false;
+  }
 }
 
 

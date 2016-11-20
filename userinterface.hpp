@@ -62,7 +62,7 @@ class UserInterface {
     virtual void setTagsString(const std::string &) = 0;
     virtual std::string tagsString() = 0;
     virtual void show() = 0;
-    virtual void fillList(const ListEntries &list_entries) = 0;
+    virtual void setListEntries(const ListEntries &list_entries) = 0;
     virtual void enableTimeouts() = 0;
 };
 
