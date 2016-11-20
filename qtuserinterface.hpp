@@ -10,7 +10,7 @@
 #include <QLineEdit>
 #include <QBoxLayout>
 #include <QLabel>
-#include "listentry.hpp"
+#include "listentries.hpp"
 #include "userinterface.hpp"
 
 
@@ -21,7 +21,7 @@ class QtUserInterface : public QObject, public UserInterface {
   public:
     QtUserInterface(int &argc,char** const argv);
 
-    void fillList(const std::vector<ListEntry> &list_entries) override;
+    void fillList(const ListEntries &list_entries) override;
     std::string tagsString() override;
     void setTagsString(const std::string &) override;
     void show() override;

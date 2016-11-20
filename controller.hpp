@@ -4,13 +4,9 @@
 
 class Controller {
   public:
-    Controller(
-      UserInterface& user_interface_arg,
-      System& system_arg
-    );
+    Controller(UserInterface&, System&);
 
     void runApplication();
-
     static std::string defaultTags() { return "c++ c++11 c++14 c++17"; }
 
   private:
