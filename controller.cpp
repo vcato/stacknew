@@ -3,6 +3,9 @@
 #include "makelistentries.hpp"
 
 
+using std::string;
+
+
 static bool anyAreNew(const ListEntries &new_entries)
 {
   for (const auto& entry : new_entries) {
@@ -14,7 +17,6 @@ static bool anyAreNew(const ListEntries &new_entries)
 
 
 Controller::Data::Data(System& system)
-: tags("c++")
 {
   readExisting(system);
 }
@@ -27,7 +29,7 @@ void Controller::Data::readExisting(System& system)
 }
 
 
-void Controller::Data::update(System& system)
+void Controller::Data::update(System& system,const string &tags)
 {
   system.updateStoredQuestions(tags);
   old_questions = new_questions;
@@ -46,7 +48,7 @@ Controller::Controller(
   user_interface.row_clicked_func = [&](int row) { rowClicked(row); };
   user_interface.update_func = [&]() { updatePressed(); };
   updateList();
-  user_interface.setTags(data.tags);
+  user_interface.setTagsString("c++");
 }
 
 
@@ -64,7 +66,8 @@ void Controller::rowClicked(int row)
 
 void Controller::updatePressed()
 {
-  data.update(system);
+  string tags = user_interface.tagsString();
+  data.update(system,tags);
   bool any_are_new = updateList();
 
   if (any_are_new) {

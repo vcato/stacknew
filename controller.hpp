@@ -16,11 +16,10 @@ class Controller {
       Data(System&);
 
       void readExisting(System&);
-      void update(System&);
+      void update(System&,const std::string &tags);
 
       Questions old_questions;
       Questions new_questions;
-      std::string tags;
     };
 
     UserInterface &user_interface;

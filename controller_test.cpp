@@ -10,7 +10,8 @@ using std::cerr;
 
 namespace {
   struct FakeUserInterface : UserInterface {
-    virtual void setTags(std::string &arg) { tags = arg; }
+    virtual void setTagsString(const std::string &arg) { tags = arg; }
+    virtual std::string tagsString() { return tags; }
 
     virtual void show() { is_shown = true; }
 
@@ -22,6 +23,11 @@ namespace {
     void userPressesUpdate()
     {
       updatePressed();
+    }
+
+    void userChangesTagsTo(const string &tags_arg)
+    {
+      tags = tags_arg;
     }
 
     string tags;
@@ -86,6 +92,14 @@ namespace {
       user_interface.userPressesUpdate();
       assert(system.query_tags=="c++");
     }
+
+
+    void testChangingTagsAndPressingUpdate()
+    {
+      user_interface.userChangesTagsTo("c++ c++14");
+      user_interface.userPressesUpdate();
+      assert(system.query_tags=="c++ c++14");
+    }
   };
 }
 
@@ -94,4 +108,5 @@ int main()
 {
   TestHarness().testRunningApplication();
   TestHarness().testPressingUpdate();
+  TestHarness().testChangingTagsAndPressingUpdate();
 }

@@ -45,6 +45,12 @@ void
 }
 
 
+string QtUserInterface::tagsString()
+{
+  return tags_field.text().toUtf8().constData();
+}
+
+
 void QtUserInterface::fillList(const ListEntries &list_entries)
 {
   int n_entries = list_entries.size();
@@ -91,7 +97,7 @@ void QtUserInterface::rowDoubleClicked(QTableWidgetItem* item_ptr)
 }
 
 
-void QtUserInterface::setTags(std::string &arg)
+void QtUserInterface::setTagsString(const std::string &arg)
 {
   tags_field.setText(arg.c_str());
 }
