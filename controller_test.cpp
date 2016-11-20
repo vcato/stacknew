@@ -12,7 +12,7 @@ namespace {
   struct FakeUserInterface : UserInterface {
     virtual void setTags(std::string &arg) { tags = arg; }
 
-    virtual void show() { shown = true; }
+    virtual void show() { is_shown = true; }
 
     virtual void fillList(const ListEntries &arg)
     {
@@ -20,7 +20,7 @@ namespace {
     }
 
     string tags;
-    bool shown = false;
+    bool is_shown = false;
     ListEntries list_entries;
   };
 }
@@ -30,12 +30,12 @@ namespace {
   struct FakeSystem : System {
     Questions readStoredOldQuestions() override
     {
-      assert(false);
+      return {};
     }
 
     Questions readStoredNewQuestions() override
     {
-      assert(false);
+      return {};
     }
 
     void updateStoredQuestions(const std::string &tags) override
@@ -58,11 +58,17 @@ namespace {
 }
 
 
-int main()
+static void testRunningApplication()
 {
-#if 0
   FakeUserInterface user_interface;
   FakeSystem system;
   Controller controller{user_interface,system};
-#endif
+  controller.runApplication();
+  assert(user_interface.is_shown);
+}
+
+
+int main()
+{
+  testRunningApplication();
 }

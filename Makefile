@@ -28,7 +28,8 @@ makelistentries_test: makelistentries_test.o makelistentries.o decodedstring.o
 escapedtags_test: escapedtags_test.o escapedtags.o
 	$(CXX) -o $@ $^
 
-controller_test: controller_test.o
+controller_test: controller_test.o controller.o makelistentries.o \
+  decodedstring.o
 	$(CXX) -o $@ $^
 
 %.pass: %
