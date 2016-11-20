@@ -4,5 +4,6 @@
 *.pass
 *_test
 *_moc.cpp
+*.swp
 stacknew
 archive/
