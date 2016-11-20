@@ -103,19 +103,19 @@ static int getQuestions(const char *path,const string &escaped_tags)
 }
 
 
-Questions DataAccessor::readStoredOldQuestions()
+Questions RealDataAccessor::readStoredOldQuestions()
 {
   return readQuestionsFrom(old_questions_path);
 }
 
 
-Questions DataAccessor::readStoredNewQuestions()
+Questions RealDataAccessor::readStoredNewQuestions()
 {
   return readQuestionsFrom(new_questions_path);
 }
 
 
-void DataAccessor::updateStoredQuestions(const string &tags)
+void RealDataAccessor::updateStoredQuestions(const string &tags)
 {
   rename(new_questions_path,old_questions_path);
   string escaped_tags = escapedTags(tags);

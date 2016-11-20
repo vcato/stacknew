@@ -22,13 +22,18 @@ namespace {
 }
 
 
+namespace {
+  struct FakeDataAccessor : DataAccessor {
+  };
+}
+
+
 int main()
 {
 #if 0
   FakeUserInterface user_interface;
-  FakeStorage storage;
-  FakeStackExchange stack_exchange;
-  Data data{storage,stack_exchange};
+  FakeDataAccessor data_accessor;
+  Data data{data_accessor};
   Controller controller{user_interface,data};
 #endif
 }

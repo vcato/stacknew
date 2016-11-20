@@ -1,8 +1,5 @@
-#include "questions.hpp"
-
-
 struct DataAccessor {
-  Questions readStoredOldQuestions();
-  Questions readStoredNewQuestions();
-  void updateStoredQuestions(const std::string &tags);
+  virtual Questions readStoredOldQuestions() = 0;
+  virtual Questions readStoredNewQuestions() = 0;
+  virtual void updateStoredQuestions(const std::string &tags) = 0;
 };
