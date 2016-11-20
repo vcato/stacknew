@@ -39,7 +39,7 @@ class QtUserInterface : public QObject, public UserInterface {
     void setCellText(int row,int col,const std::string &text,bool is_new);
 
   private slots:
-    void updatePressed();
+    void updateCallback();
     void rowDoubleClicked(QTableWidgetItem*);
 };
 

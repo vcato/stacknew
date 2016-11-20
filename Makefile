@@ -9,7 +9,7 @@ all:
 
 stacknew: main.o qtuserinterface.o controller.o \
   decodedstring.o makelistentries.o \
-  qtuserinterface_moc.o escapedtags.o realsystem.o
+  qtuserinterface_moc.o escapedtags.o realsystem.o userinterface.o
 	$(CXX) -o $@ $^ -lPocoNet -lPocoFoundation -ljsoncpp $(LIBS)
 
 run_unit_tests: \
@@ -29,7 +29,7 @@ escapedtags_test: escapedtags_test.o escapedtags.o
 	$(CXX) -o $@ $^
 
 controller_test: controller_test.o controller.o makelistentries.o \
-  decodedstring.o
+  decodedstring.o userinterface.o
 	$(CXX) -o $@ $^
 
 %.pass: %

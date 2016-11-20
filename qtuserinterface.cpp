@@ -23,7 +23,7 @@ void QtUserInterface::create()
   tags_layout.addWidget(&tags_field);
   layout.addWidget(&update_button);
   layout.addWidget(&list);
-  connect(&update_button,SIGNAL(clicked()),SLOT(updatePressed()));
+  connect(&update_button,SIGNAL(clicked()),SLOT(updateCallback()));
   connect(
     &list,
     SIGNAL(itemDoubleClicked(QTableWidgetItem*)),
@@ -79,9 +79,9 @@ void QtUserInterface::show()
 }
 
 
-void QtUserInterface::updatePressed()
+void QtUserInterface::updateCallback()
 {
-  update_func();
+  updatePressed();
 }
 
 

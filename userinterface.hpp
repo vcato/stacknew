@@ -13,6 +13,8 @@ class UserInterface {
     virtual void setTags(std::string &) = 0;
     virtual void show() = 0;
     virtual void fillList(const ListEntries &list_entries) = 0;
+
+    void updatePressed();
 };
 
 #endif /* USERINTERFACE_HPP_ */

@@ -19,6 +19,11 @@ namespace {
       list_entries = arg;
     }
 
+    void userPressesUpdate()
+    {
+      updatePressed();
+    }
+
     string tags;
     bool is_shown = false;
     ListEntries list_entries;
@@ -38,10 +43,9 @@ namespace {
       return {};
     }
 
-    void updateStoredQuestions(const std::string &tags) override
+    void updateStoredQuestions(const std::string & tags) override
     {
-      cerr << "tags=" << tags << "\n";
-      assert(false);
+      query_tags = tags;
     }
 
     void playNewQuestionsSound() override
@@ -54,21 +58,40 @@ namespace {
       cerr << "link=" << link << "\n";
       assert(false);
     }
+
+    string query_tags;
   };
 }
 
 
-static void testRunningApplication()
-{
-  FakeUserInterface user_interface;
-  FakeSystem system;
-  Controller controller{user_interface,system};
-  controller.runApplication();
-  assert(user_interface.is_shown);
+namespace {
+  struct TestHarness {
+    FakeUserInterface user_interface;
+    FakeSystem system;
+    Controller controller{user_interface,system};
+
+    TestHarness()
+    {
+      controller.runApplication();
+    }
+
+    void testRunningApplication()
+    {
+      assert(user_interface.is_shown);
+    }
+
+
+    void testPressingUpdate()
+    {
+      user_interface.userPressesUpdate();
+      assert(system.query_tags=="c++");
+    }
+  };
 }
 
 
 int main()
 {
-  testRunningApplication();
+  TestHarness().testRunningApplication();
+  TestHarness().testPressingUpdate();
 }
