@@ -2,9 +2,10 @@
 #define DATA_HPP_
 
 #include "questions.hpp"
+#include "dataaccessor.hpp"
 
 
-class Data {
+class Data : public DataAccessor {
   public:
     Data();
 
@@ -14,10 +15,7 @@ class Data {
     Questions old_questions;
     Questions new_questions;
     std::string tags;
-
-  private:
-    Questions readOldQuestions();
-    Questions readNewQuestions();
 };
+
 
 #endif /* DATA_HPP_ */

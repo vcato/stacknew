@@ -9,7 +9,7 @@ all:
 
 stacknew: main.o data.o qtuserinterface.o controller.o \
   decodedstring.o makelistentries.o openlink.o \
-  playsound.o qtuserinterface_moc.o escapedtags.o
+  playsound.o qtuserinterface_moc.o escapedtags.o dataaccessor.o
 	$(CXX) -o $@ $^ -lPocoNet -lPocoFoundation -ljsoncpp $(LIBS)
 
 run_unit_tests: \
