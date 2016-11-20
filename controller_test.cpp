@@ -28,24 +28,30 @@ namespace {
 
 namespace {
   struct FakeSystem : System {
-    virtual Questions readStoredOldQuestions()
+    Questions readStoredOldQuestions() override
     {
       assert(false);
     }
 
-    virtual Questions readStoredNewQuestions()
+    Questions readStoredNewQuestions() override
     {
       assert(false);
     }
 
-    virtual void updateStoredQuestions(const std::string &tags)
+    void updateStoredQuestions(const std::string &tags) override
     {
       cerr << "tags=" << tags << "\n";
       assert(false);
     }
 
-    virtual void playNewQuestionsSound()
+    void playNewQuestionsSound() override
     {
+      assert(false);
+    }
+
+    void openLink(const std::string &link) override
+    {
+      cerr << "link=" << link << "\n";
       assert(false);
     }
   };

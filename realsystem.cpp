@@ -13,7 +13,6 @@
 #include <QUrl>
 #include <QDesktopServices>
 #include "escapedtags.hpp"
-#include "playsound.hpp"
 
 
 using std::ifstream;
@@ -26,6 +25,12 @@ using Net::HTTPResponse;
 
 static const char *old_questions_path = "old_questions.json";
 static const char *new_questions_path = "new_questions.json";
+
+
+static void playSound(const std::string &path)
+{
+  system(("aplay "+path).c_str());
+}
 
 
 static Questions getQuestionsFrom(const Json::Value &root_value)
