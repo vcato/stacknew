@@ -13,6 +13,9 @@ string decodedString(string s)
     if (s.compare(index,4,"&gt;")==0) {
       s.replace(index,4,">");
     }
+    if (s.compare(index,4,"&lt;")==0) {
+      s.replace(index,4,"<");
+    }
     if (s.compare(index,6,"&quot;")==0) {
       s.replace(index,6,"\"");
     }
