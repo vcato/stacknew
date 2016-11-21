@@ -1,6 +1,6 @@
 HEADERS=$(shell pkg-config --cflags QtGui)
 LIBS=$(shell pkg-config --libs QtGui)
-CXXFLAGS=-g -MD -MP -W -Wall -pedantic -std=c++14 $(HEADERS)
+CXXFLAGS=-g -MD -MP -W -Wall -pedantic -std=c++11 $(HEADERS)
 
 
 all:

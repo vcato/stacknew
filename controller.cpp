@@ -15,7 +15,7 @@ using OptionalListIndex = UserInterface::OptionalListIndex;
 static const auto no_list_index = UserInterface::no_list_index;
 
 static const vector<UpdateOption> update_options = {
-  {"None",UpdateInterval::none},
+  {"None",UpdateInterval::none()},
   {"1 minute",UpdateInterval::inMinutes(1)},
   {"5 minutes",UpdateInterval::inMinutes(5)},
   {"15 minutes",UpdateInterval::inMinutes(15)}
