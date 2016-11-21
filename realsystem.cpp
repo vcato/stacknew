@@ -136,7 +136,7 @@ void RealSystem::updateStoredQuestions(const string &tags)
 
 void RealSystem::playNewQuestionsSound()
 {
-  playSound("/usr/share/scratch/Media/Sounds/Effects/Pop.wav");
+  playSound("pop.wav");
 }
 
 
