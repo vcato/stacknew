@@ -29,6 +29,10 @@ namespace {
       update_options = arg;
     }
 
+    void setSelectedUpdateOption(int index) override
+    {
+      selected_update_option = index;
+    }
 
     void userChangesTagsTo(const string &tags_arg)
     {
@@ -64,10 +68,20 @@ namespace {
       assert(false);
     }
 
+    string updateOptionName(int index)
+    {
+      return update_options[index].text;
+    }
+
     void userChangesUpdateIntervalTo(const std::string &arg)
     {
-      int index = updateOptionWithName(arg);
-      eventHandler().updateOptionSelected(index);
+      selected_update_option = updateOptionWithName(arg);
+      eventHandler().updateOptionSelected(selected_update_option);
+    }
+
+    string selectedUpdateInterval()
+    {
+      return updateOptionName(selected_update_option);
     }
 
     void userSelectsIndex(int arg)
@@ -91,6 +105,7 @@ namespace {
 
     string tags;
     OptionalListIndex selected_index = no_list_index;
+    int selected_update_option = 0;
     bool is_shown = false;
     ListEntries list_entries;
     UpdateOptions update_options;
@@ -212,12 +227,11 @@ namespace {
     void testAutomaticUpdates()
     {
       system.current_time = 100;
-      controller.data.update_interval = UpdateInterval::inMinutes(1);
+      userChangesUpdateIntervalToOneMinute();
       controller.runApplication();
       user_interface.userPressesUpdate();
-      system.current_time = 100+60;
       system.query_count = 0;
-      user_interface.timeoutOccurs();
+      currentTimeChangesTo(100+60);
       assert(system.query_count==1);
     }
 
@@ -226,10 +240,9 @@ namespace {
       controller.runApplication();
       system.current_time = 100;
       user_interface.userPressesUpdate();
-      system.current_time = 160;
-      user_interface.timeoutOccurs();
+      currentTimeChangesTo(160);
       assert(system.query_count==1);
-      user_interface.userChangesUpdateIntervalTo("1 minute");
+      userChangesUpdateIntervalToOneMinute();
       assert(system.query_count==2);
     }
 
@@ -275,6 +288,39 @@ namespace {
       user_interface.userPressesUpdate();
       assert(user_interface.list_entries==old_list_entries);
     }
+
+    void testRetrieveFailure2()
+    {
+      system.stored_new_questions = {
+        {"title","link",1234,1}
+      };
+      controller.runApplication();
+      userChangesUpdateIntervalToOneMinute();
+      currentTimeChangesTo(60);
+      assert(system.query_count==1);
+      system.can_retrieve = false;
+      currentTimeChangesTo(120);
+      assert(system.query_count==2);
+      assert(
+        user_interface.selectedUpdateInterval()==controller.noUpdateText()
+      );
+      currentTimeChangesTo(180);
+      assert(system.query_count==2);
+    }
+
+    private:
+      void userChangesUpdateIntervalToOneMinute()
+      {
+        user_interface.userChangesUpdateIntervalTo(
+          controller.oneMinuteUpdateText()
+        );
+      }
+
+      void currentTimeChangesTo(double arg)
+      {
+        system.current_time = arg;
+        user_interface.timeoutOccurs();
+      }
   };
 }
 
@@ -291,4 +337,5 @@ int main()
   TestHarness().testSelectedItemMovesOnUpdate();
   TestHarness().testSelectedItemRemovedOnUpdate();
   TestHarness().testRetrieveFailure();
+  TestHarness().testRetrieveFailure2();
 }

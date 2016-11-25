@@ -12,13 +12,16 @@ class Controller : UserInterface::EventHandler {
 
     struct Data {
       void readExisting(System&);
-      void update(System&,const std::string &tags);
+      int update(System&,const std::string &tags);
 
       Questions old_questions;
       Questions new_questions;
       UpdateInterval update_interval = UpdateInterval::none();
       double last_update_time = 0;
     };
+
+    static std::string noUpdateText();
+    static std::string oneMinuteUpdateText();
 
     Data data;
 

@@ -13,10 +13,12 @@ using UpdateOption = UserInterface::UpdateOption;
 using OptionalListIndex = UserInterface::OptionalListIndex;
 
 static const auto no_list_index = UserInterface::no_list_index;
+static const char *no_update_text = "None";
+static const char *one_minute_update_text = "1 minute";
 
 static const vector<UpdateOption> update_options = {
-  {"None",UpdateInterval::none()},
-  {"1 minute",UpdateInterval::inMinutes(1)},
+  {no_update_text,UpdateInterval::none()},
+  {one_minute_update_text,UpdateInterval::inMinutes(1)},
   {"5 minutes",UpdateInterval::inMinutes(5)},
   {"15 minutes",UpdateInterval::inMinutes(15)}
 };
@@ -39,15 +41,17 @@ void Controller::Data::readExisting(System& system)
 }
 
 
-void Controller::Data::update(System& system,const string &tags)
+int Controller::Data::update(System& system,const string &tags)
 {
   if (system.retrieveLatestQuestions(tags)!=EXIT_SUCCESS) {
-    return;
+    return EXIT_FAILURE;
   }
   system.updateNewQuestions();
   last_update_time = system.currentTime();
   old_questions = new_questions;
   new_questions = system.readStoredNewQuestions();
+
+  return EXIT_SUCCESS;
 }
 
 
@@ -128,7 +132,13 @@ void Controller::update()
   OptionalQuestionId id = optionalQuestionIdFor(selected_index);
 
   string tags = user_interface.tagsString();
-  data.update(system,tags);
+
+  if (data.update(system,tags)!=EXIT_SUCCESS) {
+    user_interface.setSelectedUpdateOption(0);
+    updateOptionSelected(0);
+    return;
+  }
+
   bool any_are_new = updateList();
 
   if (any_are_new) {
@@ -174,4 +184,16 @@ void Controller::updateOptionSelected(int index)
 {
   data.update_interval = update_options[index].interval;
   checkForAutomaticUpdates();
+}
+
+
+string Controller::noUpdateText()
+{
+  return no_update_text;
+}
+
+
+string Controller::oneMinuteUpdateText()
+{
+  return one_minute_update_text;
 }

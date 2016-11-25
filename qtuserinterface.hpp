@@ -31,6 +31,7 @@ class QtUserInterface : public QObject, public UserInterface {
     void show() override;
     OptionalListIndex selectedListIndex() override;
     void setSelectedListIndex(OptionalListIndex) override;
+    void setSelectedUpdateOption(int index) override;
 
   private:
     QApplication app;

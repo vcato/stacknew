@@ -149,6 +149,12 @@ void QtUserInterface::setUpdateOptions(const UpdateOptions &update_options)
 }
 
 
+void QtUserInterface::setSelectedUpdateOption(int index)
+{
+  update_combo_box.setCurrentIndex(index);
+}
+
+
 OptionalListIndex QtUserInterface::selectedListIndex()
 {
   QItemSelectionModel *model_ptr = list.selectionModel();

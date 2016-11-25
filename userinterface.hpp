@@ -57,6 +57,7 @@ class UserInterface {
     EventHandler& eventHandler();
 
     virtual void setUpdateOptions(const UpdateOptions &) = 0;
+    virtual void setSelectedUpdateOption(int index) = 0;
     virtual OptionalListIndex selectedListIndex() = 0;
     virtual void setSelectedListIndex(OptionalListIndex) = 0;
     virtual void setTagsString(const std::string &) = 0;
