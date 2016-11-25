@@ -27,6 +27,7 @@ using Net::HTTPResponse;
 
 static const char *old_questions_path = "old_questions.json";
 static const char *new_questions_path = "new_questions.json";
+static const char *temp_questions_path = "temp_questions.json";
 
 
 static void playSound(const std::string &path)
@@ -126,14 +127,6 @@ Questions RealSystem::readStoredNewQuestions()
 }
 
 
-void RealSystem::updateStoredQuestions(const string &tags)
-{
-  rename(new_questions_path,old_questions_path);
-  string escaped_tags = escapedTags(tags);
-  getQuestions(new_questions_path,escaped_tags);
-}
-
-
 void RealSystem::playNewQuestionsSound()
 {
   playSound("pop.wav");
@@ -153,4 +146,18 @@ double RealSystem::currentTime()
   chrono::duration<double> time_since_epoch_in_seconds_as_double =
     chrono::duration_cast<chrono::seconds>(now.time_since_epoch());
   return time_since_epoch_in_seconds_as_double.count();
+}
+
+
+int RealSystem::retrieveLatestQuestions(const string &tags)
+{
+  string escaped_tags = escapedTags(tags);
+  return getQuestions(temp_questions_path,escaped_tags);
+}
+
+
+void RealSystem::updateNewQuestions()
+{
+  rename(new_questions_path,old_questions_path);
+  rename(temp_questions_path,new_questions_path);
 }

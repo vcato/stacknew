@@ -110,11 +110,22 @@ namespace {
       return stored_new_questions;
     }
 
-    void updateStoredQuestions(const std::string & tags) override
+    int retrieveLatestQuestions(const string &tags) override
     {
       query_tags = tags;
-      stored_new_questions = pending_questions;
       ++query_count;
+
+      if (!can_retrieve) {
+        return EXIT_FAILURE;
+      }
+
+      return EXIT_SUCCESS;
+    }
+
+    void updateNewQuestions() override
+    {
+      stored_old_questions = stored_new_questions;
+      stored_new_questions = pending_questions;
     }
 
     void playNewQuestionsSound() override
@@ -136,7 +147,9 @@ namespace {
     string opened_link;
     double current_time = 0;
     Questions stored_new_questions;
+    Questions stored_old_questions;
     Questions pending_questions;
+    bool can_retrieve = true;
     bool new_questions_sound_was_played = false;
     int query_count = 0;
   };
@@ -250,6 +263,18 @@ namespace {
       user_interface.userPressesUpdate();
       assert(user_interface.selected_index==no_list_index);
     }
+
+    void testRetrieveFailure()
+    {
+      system.stored_new_questions = {
+        {"title","link",1234,1}
+      };
+      controller.runApplication();
+      ListEntries old_list_entries = user_interface.list_entries;
+      system.can_retrieve = false;
+      user_interface.userPressesUpdate();
+      assert(user_interface.list_entries==old_list_entries);
+    }
   };
 }
 
@@ -265,4 +290,5 @@ int main()
   TestHarness().testChangingUpdateInterval();
   TestHarness().testSelectedItemMovesOnUpdate();
   TestHarness().testSelectedItemRemovedOnUpdate();
+  TestHarness().testRetrieveFailure();
 }

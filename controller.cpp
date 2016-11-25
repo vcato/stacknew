@@ -41,7 +41,10 @@ void Controller::Data::readExisting(System& system)
 
 void Controller::Data::update(System& system,const string &tags)
 {
-  system.updateStoredQuestions(tags);
+  if (system.retrieveLatestQuestions(tags)!=EXIT_SUCCESS) {
+    return;
+  }
+  system.updateNewQuestions();
   last_update_time = system.currentTime();
   old_questions = new_questions;
   new_questions = system.readStoredNewQuestions();
