@@ -22,6 +22,9 @@ class Controller : UserInterface::EventHandler {
 
     static std::string noUpdateText();
     static std::string oneMinuteUpdateText();
+    static std::string noUpdatesYetMessage();
+    static std::string lastUpdateMessage(int64_t time);
+    static std::string updateFailedMessage();
 
     Data data;
 

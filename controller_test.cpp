@@ -103,12 +103,18 @@ namespace {
       selected_index = arg;
     }
 
-    string tags;
-    OptionalListIndex selected_index = no_list_index;
-    int selected_update_option = 0;
+    void setStatusMessage(const std::string &arg) override
+    {
+      status_message = arg;
+    }
+
     bool is_shown = false;
-    ListEntries list_entries;
+    string tags;
     UpdateOptions update_options;
+    string status_message;
+    int selected_update_option = 0;
+    OptionalListIndex selected_index = no_list_index;
+    ListEntries list_entries;
   };
 }
 
@@ -185,6 +191,7 @@ namespace {
     {
       controller.runApplication();
       assert(user_interface.is_shown);
+      assert(user_interface.status_message==controller.noUpdatesYetMessage());
     }
 
 
@@ -193,6 +200,10 @@ namespace {
       controller.runApplication();
       user_interface.userPressesUpdate();
       assert(system.query_tags==Controller::defaultTags());
+      assert(
+        user_interface.status_message ==
+        controller.lastUpdateMessage(system.current_time)
+      );
     }
 
 
@@ -287,6 +298,7 @@ namespace {
       system.can_retrieve = false;
       user_interface.userPressesUpdate();
       assert(user_interface.list_entries==old_list_entries);
+      assert(user_interface.status_message==controller.updateFailedMessage());
     }
 
     void testRetrieveFailure2()

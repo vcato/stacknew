@@ -23,6 +23,7 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
   update_layout.addWidget(&update_label);
   update_layout.addWidget(&update_combo_box);
   layout.addLayout(&update_layout);
+  layout.addWidget(&status_label);
   list.setSelectionBehavior(QAbstractItemView::SelectRows);
   layout.addWidget(&list);
   connect(&update_button,SIGNAL(clicked()),SLOT(updateCallback()));
@@ -152,6 +153,12 @@ void QtUserInterface::setUpdateOptions(const UpdateOptions &update_options)
 void QtUserInterface::setSelectedUpdateOption(int index)
 {
   update_combo_box.setCurrentIndex(index);
+}
+
+
+void QtUserInterface::setStatusMessage(const std::string &arg)
+{
+  status_label.setText(("Status: "+arg).c_str());
 }
 
 

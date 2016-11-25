@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 #include "makelistentries.hpp"
+#include "datestring.hpp"
 
 
 using std::string;
@@ -79,6 +80,7 @@ void Controller::runApplication()
   updateList();
   user_interface.setTagsString(defaultTags());
   user_interface.enableTimeouts();
+  user_interface.setStatusMessage(noUpdatesYetMessage());
   user_interface.show();
 }
 
@@ -134,11 +136,14 @@ void Controller::update()
   string tags = user_interface.tagsString();
 
   if (data.update(system,tags)!=EXIT_SUCCESS) {
-    user_interface.setSelectedUpdateOption(0);
-    updateOptionSelected(0);
+    int no_update_index = 0;
+    user_interface.setSelectedUpdateOption(no_update_index);
+    updateOptionSelected(no_update_index);
+    user_interface.setStatusMessage(updateFailedMessage());
     return;
   }
 
+  user_interface.setStatusMessage(lastUpdateMessage(data.last_update_time));
   bool any_are_new = updateList();
 
   if (any_are_new) {
@@ -196,4 +201,22 @@ string Controller::noUpdateText()
 string Controller::oneMinuteUpdateText()
 {
   return one_minute_update_text;
+}
+
+
+string Controller::noUpdatesYetMessage()
+{
+  return "No updates yet.";
+}
+
+
+string Controller::lastUpdateMessage(int64_t last_update_time)
+{
+  return "Last update "+dateString(last_update_time);
+}
+
+
+string Controller::updateFailedMessage()
+{
+  return "Update failed.";
 }

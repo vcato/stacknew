@@ -32,6 +32,7 @@ class QtUserInterface : public QObject, public UserInterface {
     OptionalListIndex selectedListIndex() override;
     void setSelectedListIndex(OptionalListIndex) override;
     void setSelectedUpdateOption(int index) override;
+    void setStatusMessage(const std::string &) override;
 
   private:
     QApplication app;
@@ -44,6 +45,7 @@ class QtUserInterface : public QObject, public UserInterface {
     QHBoxLayout update_layout;
     QLabel update_label{"Automatic Update Interval:"};
     QComboBox update_combo_box;
+    QLabel status_label;
     QTimer timer;
     QTableWidget list;
     bool first_set = true;
