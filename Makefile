@@ -7,7 +7,7 @@ all:
 	$(MAKE) run_unit_tests
 	$(MAKE) stacknew
 
-stacknew: main.o qtuserinterface.o controller.o \
+stacknew: main.o qtuserinterface.o controller.o datestring.o \
   decodedstring.o makelistentries.o replacedstring.o \
   qtuserinterface_moc.o escapedtags.o realsystem.o userinterface.o
 	$(CXX) -o $@ $^ -lPocoNet -lPocoFoundation -ljsoncpp $(LIBS)
@@ -23,14 +23,14 @@ decodedstring_test: decodedstring_test.o decodedstring.o replacedstring.o
 	$(CXX) -o $@ $^
 
 makelistentries_test: makelistentries_test.o makelistentries.o \
-  decodedstring.o replacedstring.o
+  decodedstring.o replacedstring.o datestring.o
 	$(CXX) -o $@ $^
 
 escapedtags_test: escapedtags_test.o escapedtags.o replacedstring.o
 	$(CXX) -o $@ $^
 
 controller_test: controller_test.o controller.o makelistentries.o \
-  decodedstring.o userinterface.o replacedstring.o
+  decodedstring.o userinterface.o replacedstring.o datestring.o
 	$(CXX) -o $@ $^
 
 %.pass: %
