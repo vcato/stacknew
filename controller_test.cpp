@@ -6,7 +6,6 @@
 
 using std::string;
 using std::cerr;
-using UpdateInterval = UserInterface::UpdateInterval;
 static const auto no_list_index = UserInterface::no_list_index;
 
 

@@ -2,6 +2,7 @@
 #define USERINTERFACE_HPP_
 
 #include "listentries.hpp"
+#include "updateinterval.hpp"
 
 
 class UserInterface {
@@ -9,30 +10,6 @@ class UserInterface {
     static const int no_list_index = -1;
 
     using OptionalListIndex = int;
-
-    struct UpdateInterval {
-      bool is_none = true;
-      int interval_in_minutes = 0;
-
-      bool isNone() const { return is_none; }
-      int inMinutes() const { return interval_in_minutes; }
-
-      static UpdateInterval inMinutes(int n_minutes)
-      {
-        UpdateInterval result;
-        result.is_none = false;
-        result.interval_in_minutes = n_minutes;
-        return result;
-      }
-
-      static UpdateInterval none()
-      {
-        UpdateInterval result;
-        result.is_none = true;
-        result.interval_in_minutes = 0;
-        return result;
-      }
-    };
 
     struct UpdateOption {
       std::string text;
@@ -42,8 +19,6 @@ class UserInterface {
     using UpdateOptions = std::vector<UpdateOption>;
 
     struct EventHandler {
-      using UpdateInterval = UserInterface::UpdateInterval;
-
       virtual void rowClicked(size_t) = 0;
       virtual void updatePressed() = 0;
       virtual void timeoutOccurred() = 0;

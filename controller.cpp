@@ -9,7 +9,6 @@
 using std::string;
 using std::cerr;
 using std::vector;
-using UpdateInterval = UserInterface::UpdateInterval;
 using UpdateOption = UserInterface::UpdateOption;
 using OptionalListIndex = UserInterface::OptionalListIndex;
 
