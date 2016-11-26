@@ -7,16 +7,15 @@
 
 class UserInterface {
   public:
-    static const int no_list_index = -1;
-
+    struct UpdateOption;
     using OptionalListIndex = int;
+    using UpdateOptions = std::vector<UpdateOption>;
+    static const OptionalListIndex no_list_index = -1;
 
     struct UpdateOption {
       std::string text;
       UpdateInterval interval;
     };
-
-    using UpdateOptions = std::vector<UpdateOption>;
 
     struct EventHandler {
       virtual void rowClicked(size_t) = 0;
@@ -26,9 +25,6 @@ class UserInterface {
     };
 
     void setEventHandler(EventHandler* event_handler_ptr);
-
-    EventHandler *event_handler_ptr = 0;
-
     EventHandler& eventHandler();
 
     virtual void setUpdateOptions(const UpdateOptions &) = 0;
@@ -41,6 +37,9 @@ class UserInterface {
     virtual void show() = 0;
     virtual void setListEntries(const ListEntries &list_entries) = 0;
     virtual void enableTimeouts() = 0;
+
+  private:
+    EventHandler *event_handler_ptr = 0;
 };
 
 #endif /* USERINTERFACE_HPP_ */
