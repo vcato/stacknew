@@ -149,9 +149,7 @@ void Controller::update()
     system.playNewQuestionsSound();
   }
 
-  int new_selected_index = indexOfQuestionWithId(id);
-
-  user_interface.setSelectedListIndex(new_selected_index);
+  user_interface.setSelectedListIndex(indexOfQuestionWithId(id));
 }
 
 

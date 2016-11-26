@@ -2,7 +2,7 @@
 #include "system.hpp"
 
 
-class Controller : UserInterface::EventHandler {
+class Controller : private UserInterface::EventHandler {
   public:
     Controller(UserInterface&, System&);
     ~Controller();
@@ -39,8 +39,9 @@ class Controller : UserInterface::EventHandler {
 
     void rowClicked(size_t row) override;
     void updatePressed() override;
-    void timeoutOccurred();
+    void timeoutOccurred() override;
     void updateOptionSelected(int) override;
+
     OptionalQuestionId optionalQuestionIdFor(OptionalListIndex);
     OptionalListIndex indexOfQuestionWithId(OptionalQuestionId);
 
