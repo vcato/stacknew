@@ -103,6 +103,7 @@ static int getQuestions(const char *path,const string &escaped_tags)
     inflated_response_stream(response_stream,STREAM_GZIP);
 
   if (status!=HTTPResponse::HTTP_OK) {
+    cerr << "path_and_query=" << path_and_query << "\n";
     cerr << "status=" << status << "\n";
     return EXIT_FAILURE;
   }
