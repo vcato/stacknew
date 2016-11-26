@@ -8,7 +8,7 @@ using std::string;
 using std::vector;
 
 
-static bool anyQuestionHasId(int id,const vector<Question> &old_questions)
+static bool anyQuestionHasId(int id,const Questions &old_questions)
 {
   for (auto& question : old_questions)
   {
@@ -21,8 +21,8 @@ static bool anyQuestionHasId(int id,const vector<Question> &old_questions)
 
 vector<ListEntry>
   makeListEntries(
-    const vector<Question> &old_questions,
-    const vector<Question> &questions
+    const Questions &old_questions,
+    const Questions &questions
   )
 {
   int n_questions = questions.size();

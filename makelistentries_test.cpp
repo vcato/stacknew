@@ -7,8 +7,8 @@ using std::vector;
 
 static void testWithNoQuestions()
 {
-  vector<Question> old_questions;
-  vector<Question> new_questions;
+  Questions old_questions;
+  Questions new_questions;
   vector<ListEntry> list_entries = makeListEntries(old_questions,new_questions);
   assert(list_entries.size()==0);
 }
@@ -16,8 +16,8 @@ static void testWithNoQuestions()
 
 static void testWithOneNewQuestion()
 {
-  vector<Question> old_questions;
-  vector<Question> new_questions;
+  Questions old_questions;
+  Questions new_questions;
 
   Question question1;
   question1.id = 1;
