@@ -12,7 +12,8 @@ static const vector<Replacement> replacements = {
   {"&gt;",   ">"},
   {"&lt;",   "<"},
   {"&quot;", "\""},
-  {"&#39;",  "'"}
+  {"&#39;",  "'"},
+  {"&amp;",  "&"}
 };
 
 
