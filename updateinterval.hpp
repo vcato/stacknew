@@ -1,23 +1,32 @@
-struct UpdateInterval {
-  bool is_none = true;
-  int interval_in_minutes = 0;
+#include <cassert>
 
-  bool isNone() const { return is_none; }
-  int inMinutes() const { return interval_in_minutes; }
+class UpdateInterval {
+  public:
+    bool isNone() const { return interval_in_minutes==no_interval; }
 
-  static UpdateInterval inMinutes(int n_minutes)
-  {
-    UpdateInterval result;
-    result.is_none = false;
-    result.interval_in_minutes = n_minutes;
-    return result;
-  }
+    int inMinutes() const
+    {
+      assert(interval_in_minutes!=no_interval);
+      return interval_in_minutes;
+    }
 
-  static UpdateInterval none()
-  {
-    UpdateInterval result;
-    result.is_none = true;
-    result.interval_in_minutes = 0;
-    return result;
-  }
+    static UpdateInterval inMinutes(int n_minutes)
+    {
+      assert(n_minutes>=0);
+      assert(n_minutes!=no_interval);
+      UpdateInterval result;
+      result.interval_in_minutes = n_minutes;
+      return result;
+    }
+
+    static UpdateInterval none()
+    {
+      UpdateInterval result;
+      result.interval_in_minutes = no_interval;
+      return result;
+    }
+
+  private:
+    static const int no_interval = 0;
+    int interval_in_minutes = no_interval;
 };
