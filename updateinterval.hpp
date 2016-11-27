@@ -10,7 +10,7 @@ class UpdateInterval {
       return interval_in_minutes;
     }
 
-    static UpdateInterval inMinutes(int n_minutes)
+    static UpdateInterval fromMinutes(int n_minutes)
     {
       assert(n_minutes>=0);
       assert(n_minutes!=no_interval);

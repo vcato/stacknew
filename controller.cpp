@@ -18,9 +18,9 @@ static const char *one_minute_update_text = "1 minute";
 
 static const vector<UpdateOption> update_options = {
   {no_update_text,UpdateInterval::none()},
-  {one_minute_update_text,UpdateInterval::inMinutes(1)},
-  {"5 minutes",UpdateInterval::inMinutes(5)},
-  {"15 minutes",UpdateInterval::inMinutes(15)}
+  {one_minute_update_text,UpdateInterval::fromMinutes(1)},
+  {"5 minutes",UpdateInterval::fromMinutes(5)},
+  {"15 minutes",UpdateInterval::fromMinutes(15)}
 };
 
 
