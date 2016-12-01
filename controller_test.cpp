@@ -132,7 +132,7 @@ namespace {
 
     int retrieveLatestQuestions(const string &tags) override
     {
-      query_tags = tags;
+      tags_from_last_query = tags;
       ++query_count;
 
       if (!can_retrieve) {
@@ -163,7 +163,7 @@ namespace {
       return current_time;
     }
 
-    string query_tags;
+    string tags_from_last_query;
     string opened_link;
     double current_time = 0;
     Questions stored_new_questions;
@@ -198,7 +198,7 @@ namespace {
     {
       controller.runApplication();
       user_interface.userPressesUpdate();
-      assert(system.query_tags==Controller::defaultTags());
+      assert(system.tags_from_last_query==Controller::defaultTags());
       assert(
         user_interface.status_message ==
         controller.lastUpdateMessage(system.current_time)
@@ -211,7 +211,7 @@ namespace {
       controller.runApplication();
       user_interface.userChangesTagsTo("c++ c++14");
       user_interface.userPressesUpdate();
-      assert(system.query_tags=="c++ c++14");
+      assert(system.tags_from_last_query=="c++ c++14");
     }
 
     void testNewQuestionsMakeASound()
