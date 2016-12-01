@@ -11,7 +11,6 @@ string replacedString(const string &arg,const vector<Replacement> &replacements)
 
   for (size_t index = 0; index!=s.size(); ++index) {
     for (const auto& r : replacements) {
-
       if (s.compare(index,r.old_string.size(),r.old_string)==0) {
         s.replace(index,r.old_string.size(),r.new_string);
       }
