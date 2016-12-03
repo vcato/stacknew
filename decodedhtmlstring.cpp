@@ -1,4 +1,4 @@
-#include "decodedstring.hpp"
+#include "decodedhtmlstring.hpp"
 
 #include <vector>
 #include "replacedstring.hpp"
