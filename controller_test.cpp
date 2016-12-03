@@ -355,23 +355,34 @@ namespace {
   };
 }
 
+namespace {
+  struct FakeApplication {
+    FakeUserInterface user_interface;
+    Controller controller;
+
+    FakeApplication(FakeSystem &system)
+    : controller{user_interface,system}
+    {
+      controller.runApplication();
+    }
+  };
+}
+
 
 static void testSavedTagsAreReloaded()
 {
   FakeSystem system;
+
   {
-    FakeUserInterface user_interface;
-    Controller controller{user_interface,system};
-    controller.runApplication();
-    assert(user_interface.tags==Controller::defaultTags());
-    user_interface.userChangesTagsTo("python C++");
-    user_interface.userPressesUpdate();
+    FakeApplication app(system);
+    assert(app.user_interface.tags==Controller::defaultTags());
+    app.user_interface.userChangesTagsTo("python C++");
+    app.user_interface.userPressesUpdate();
   }
+
   {
-    FakeUserInterface user_interface;
-    Controller controller{user_interface,system};
-    controller.runApplication();
-    assert(user_interface.tags=="python C++");
+    FakeApplication app(system);
+    assert(app.user_interface.tags=="python C++");
   }
 }
 
