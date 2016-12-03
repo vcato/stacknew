@@ -1,6 +1,6 @@
 #include "makelistentries.hpp"
 
-#include "decodedstring.hpp"
+#include "decodedhtmlstring.hpp"
 #include "datestring.hpp"
 
 
@@ -32,7 +32,7 @@ vector<ListEntry>
     const Question &question = questions[i];
 
     ListEntry list_entry;
-    list_entry.title = decodedString(question.title);
+    list_entry.title = decodedHTMLString(question.title);
     list_entry.creation_date = dateString(question.creation_date);
     list_entry.is_new = !anyQuestionHasId(question.id,old_questions);
     list_entries.push_back(list_entry);

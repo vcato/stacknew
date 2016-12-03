@@ -17,7 +17,7 @@ static const vector<Replacement> replacements = {
 };
 
 
-string decodedString(string s)
+string decodedHTMLString(string s)
 {
   return replacedString(s,replacements);
 }
