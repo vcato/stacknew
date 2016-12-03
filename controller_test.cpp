@@ -163,7 +163,18 @@ namespace {
       return current_time;
     }
 
+    void saveTags(const std::string &arg)
+    {
+      saved_tags = arg;
+    }
+
+    virtual std::string savedTags()
+    {
+      return saved_tags;
+    }
+
     string tags_from_last_query;
+    string saved_tags;
     string opened_link;
     double current_time = 0;
     Questions stored_new_questions;
@@ -203,6 +214,15 @@ namespace {
         user_interface.status_message ==
         controller.lastUpdateMessage(system.current_time)
       );
+    }
+
+    void testTagsAreSaved()
+    {
+      controller.runApplication();
+      user_interface.userChangesTagsTo("python");
+      assert(user_interface.tags!=Controller::defaultTags());
+      user_interface.userPressesUpdate();
+      assert(system.saved_tags=="python");
     }
 
 
@@ -336,10 +356,31 @@ namespace {
 }
 
 
+static void testSavedTagsAreReloaded()
+{
+  FakeSystem system;
+  {
+    FakeUserInterface user_interface;
+    Controller controller{user_interface,system};
+    controller.runApplication();
+    assert(user_interface.tags==Controller::defaultTags());
+    user_interface.userChangesTagsTo("python C++");
+    user_interface.userPressesUpdate();
+  }
+  {
+    FakeUserInterface user_interface;
+    Controller controller{user_interface,system};
+    controller.runApplication();
+    assert(user_interface.tags=="python C++");
+  }
+}
+
+
 int main()
 {
   TestHarness().testRunningApplication();
   TestHarness().testPressingUpdate();
+  TestHarness().testTagsAreSaved();
   TestHarness().testChangingTagsAndPressingUpdate();
   TestHarness().testNewQuestionsMakeASound();
   TestHarness().testOpeningAQuestion();
@@ -349,4 +390,5 @@ int main()
   TestHarness().testSelectedItemRemovedOnUpdate();
   TestHarness().testRetrieveFailure();
   TestHarness().testRetrieveFailure2();
+  testSavedTagsAreReloaded();
 }

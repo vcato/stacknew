@@ -14,6 +14,7 @@
 #include <QUrl>
 #include <QDesktopServices>
 #include "escapedtags.hpp"
+#include "textfile.hpp"
 
 
 using std::ifstream;
@@ -161,4 +162,19 @@ void RealSystem::updateNewQuestions()
 {
   rename(new_questions_path,old_questions_path);
   rename(temp_questions_path,new_questions_path);
+}
+
+
+static const char *saved_tags_path = "saved_tags.txt";
+
+
+void RealSystem::saveTags(const std::string &tags)
+{
+  saveTextToFile(saved_tags_path,tags);
+}
+
+
+std::string RealSystem::savedTags()
+{
+  return readTextFromFile(saved_tags_path);
 }

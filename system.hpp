@@ -10,6 +10,8 @@ struct System {
   virtual void updateNewQuestions() = 0;
   virtual void playNewQuestionsSound() = 0;
   virtual void openLink(const std::string &link) = 0;
+  virtual void saveTags(const std::string &tags) = 0;
+  virtual std::string savedTags() = 0;
   virtual double currentTime() = 0;
 };
 

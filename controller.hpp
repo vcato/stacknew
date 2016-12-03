@@ -48,4 +48,5 @@ class Controller : private UserInterface::EventHandler {
     bool updateList();
     void update();
     void checkForAutomaticUpdates();
+    void restoreSavedTags();
 };

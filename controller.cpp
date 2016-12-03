@@ -73,11 +73,21 @@ Controller::~Controller()
 }
 
 
+void Controller::restoreSavedTags()
+{
+  string tags = system.savedTags();
+  if (tags.empty()) {
+    tags = defaultTags();
+  }
+  user_interface.setTagsString(tags);
+}
+
+
 void Controller::runApplication()
 {
   data.readExisting(system);
   updateList();
-  user_interface.setTagsString(defaultTags());
+  restoreSavedTags();
   user_interface.enableTimeouts();
   user_interface.setStatusMessage(noUpdatesYetMessage());
   user_interface.show();
@@ -141,6 +151,8 @@ void Controller::update()
     user_interface.setStatusMessage(updateFailedMessage());
     return;
   }
+
+  system.saveTags(tags);
 
   user_interface.setStatusMessage(lastUpdateMessage(data.last_update_time));
   bool any_are_new = updateList();

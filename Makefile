@@ -9,11 +9,13 @@ all:
 
 stacknew: main.o qtuserinterface.o controller.o datestring.o \
   decodedhtmlstring.o makelistentries.o replacedstring.o \
-  qtuserinterface_moc.o escapedtags.o realsystem.o userinterface.o
+  qtuserinterface_moc.o escapedtags.o realsystem.o userinterface.o \
+  textfile.o
 	$(CXX) -o $@ $^ -lPocoNet -lPocoFoundation -ljsoncpp $(LIBS)
 
 run_unit_tests: \
   decodedhtmlstring_test.pass \
+  textfile_test.pass \
   makelistentries_test.pass \
   escapedtags_test.pass \
   controller_test.pass
@@ -21,6 +23,9 @@ run_unit_tests: \
 
 decodedhtmlstring_test: \
   decodedhtmlstring_test.o decodedhtmlstring.o replacedstring.o
+	$(CXX) -o $@ $^
+
+textfile_test: textfile_test.o textfile.o
 	$(CXX) -o $@ $^
 
 makelistentries_test: makelistentries_test.o makelistentries.o \
