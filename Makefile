@@ -1,6 +1,15 @@
-HEADERS=$(shell pkg-config --cflags QtGui)
-LIBS=$(shell pkg-config --libs QtGui)
-CXXFLAGS=-g -MD -MP -W -Wall -pedantic -std=c++11 $(HEADERS)
+# Build with Qt4
+PACKAGES=QtGui
+MOC=moc-qt4
+
+# Build with Qt5
+#PACKAGES=Qt5Gui Qt5Core Qt5Widgets
+#MOC=moc
+
+
+HEADERS=$(shell pkg-config --cflags $(PACKAGES))
+LIBS=$(shell pkg-config --libs $(PACKAGES))
+CXXFLAGS=-g -MD -MP -W -Wall -pedantic -std=c++11 $(HEADERS) -fpic
 
 
 all:
@@ -44,7 +53,7 @@ controller_test: controller_test.o controller.o makelistentries.o \
 	touch $@
 
 %_moc.cpp: %.hpp
-	moc-qt4 $^ >$@
+	$(MOC) $^ >$@
 
 clean:
 	rm -f *.o *.d *_moc.cpp
