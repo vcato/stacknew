@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 enable_testing()
 project(stacknew)
 set(CMAKE_CXX_STANDARD 11)
+
+set_property(TARGET stacknew PROPERTY AUTOMOC ON)
 add_executable(stacknew
   main.cpp
   qtuserinterface.cpp
@@ -15,6 +17,7 @@ add_executable(stacknew
   replacedstring.cpp
   decodedhtmlstring.cpp
 )
+
 add_executable(controller_test
   controller_test.cpp
   controller.cpp
@@ -25,6 +28,7 @@ add_executable(controller_test
   replacedstring.cpp
 )
 add_test(controller controller_test)
+
 add_executable(makelistentries_test
   makelistentries_test.cpp
   makelistentries.cpp
@@ -33,34 +37,33 @@ add_executable(makelistentries_test
   datestring.cpp
 )
 add_test(makelistentries makelistentries_test)
+
 add_executable(escapedtags_test
   escapedtags_test.cpp
   escapedtags.cpp
   replacedstring.cpp
 )
 add_test(escapedtags escapedtags_test)
+
 add_executable(decodedhtmlstring_test
   decodedhtmlstring_test.cpp
   decodedhtmlstring.cpp
   replacedstring.cpp
 )
 add_test(decodedhtmlstring decodedhtmlstring_test)
+
 add_executable(textfile_test
    textfile_test.cpp
    textfile.cpp
 )
 add_test(textfile textfile_test)
+
 find_package(Qt4)
 find_library(Poco_LIBRARIES
   NAMES PocoFoundation PocoNet
   PATH_SUFFIXES ${POCO_DIR}/lib
 )
-#find_library(Poco_LIBRARIES
-#  NAMES PocoFoundationmt PocoNetmt
-#  PATH_SUFFIXES ${POCO_DIR}/lib
-#)
 include(${QT_USE_FILE})
-set_property(TARGET stacknew PROPERTY AUTOMOC ON)
 target_link_libraries(stacknew
   ${QT_LIBRARIES}
   PocoNet
