@@ -3,7 +3,6 @@ enable_testing()
 project(stacknew)
 set(CMAKE_CXX_STANDARD 11)
 
-set_property(TARGET stacknew PROPERTY AUTOMOC ON)
 add_executable(stacknew
   main.cpp
   qtuserinterface.cpp
@@ -17,6 +16,7 @@ add_executable(stacknew
   replacedstring.cpp
   decodedhtmlstring.cpp
 )
+set_property(TARGET stacknew PROPERTY AUTOMOC ON)
 
 add_executable(controller_test
   controller_test.cpp
