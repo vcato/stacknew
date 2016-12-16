@@ -16,7 +16,6 @@ add_executable(stacknew
   makelistentries.cpp
   replacedstring.cpp
   decodedhtmlstring.cpp
-  dialog.ui
 )
 target_link_libraries(stacknew PocoNet PocoFoundation jsoncpp)
 set_property(TARGET stacknew PROPERTY AUTOMOC ON)
