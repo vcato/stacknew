@@ -16,11 +16,19 @@ add_executable(stacknew
   makelistentries.cpp
   replacedstring.cpp
   decodedhtmlstring.cpp
+  dialog.ui
 )
+target_link_libraries(stacknew PocoNet PocoFoundation jsoncpp)
 set_property(TARGET stacknew PROPERTY AUTOMOC ON)
+
+# If using UIC
+#set_property(TARGET stacknew PROPERTY AUTOUIC ON)
+#set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 # For using Qt4
 #find_package(Qt4)
 #include(${QT_USE_FILE})
+#target_link_libraries(stacknew ${QT_LIBRARIES})
 
 # For using Qt5
 find_package(Qt5Widgets)
@@ -67,16 +75,6 @@ add_executable(textfile_test
 )
 add_test(textfile textfile_test)
 
-find_library(Poco_LIBRARIES
-  NAMES PocoFoundation PocoNet
-  PATH_SUFFIXES ${POCO_DIR}/lib
-)
-target_link_libraries(stacknew
-  ${QT_LIBRARIES}
-  PocoNet
-  PocoFoundation
-  jsoncpp
-)
 add_custom_target(
   run_tests ALL ctest
   DEPENDS
