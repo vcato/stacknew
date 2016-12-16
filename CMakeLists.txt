@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
+
 enable_testing()
 project(stacknew)
 set(CMAKE_CXX_STANDARD 11)
@@ -17,6 +18,14 @@ add_executable(stacknew
   decodedhtmlstring.cpp
 )
 set_property(TARGET stacknew PROPERTY AUTOMOC ON)
+# For using Qt4
+#find_package(Qt4)
+#include(${QT_USE_FILE})
+
+# For using Qt5
+find_package(Qt5Widgets)
+target_link_libraries (stacknew Qt5::Widgets)
+
 
 add_executable(controller_test
   controller_test.cpp
@@ -58,12 +67,10 @@ add_executable(textfile_test
 )
 add_test(textfile textfile_test)
 
-find_package(Qt4)
 find_library(Poco_LIBRARIES
   NAMES PocoFoundation PocoNet
   PATH_SUFFIXES ${POCO_DIR}/lib
 )
-include(${QT_USE_FILE})
 target_link_libraries(stacknew
   ${QT_LIBRARIES}
   PocoNet
