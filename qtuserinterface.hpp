@@ -16,6 +16,15 @@
 #include "userinterface.hpp"
 
 
+struct QtTableWidget : QTableWidget {
+  QSize size_hint;
+
+  virtual QSize sizeHint() const override
+  {
+    return size_hint;
+  }
+};
+
 
 class QtUserInterface : public QObject, public UserInterface {
     Q_OBJECT
@@ -47,7 +56,7 @@ class QtUserInterface : public QObject, public UserInterface {
     QComboBox update_combo_box;
     QLabel status_label;
     QTimer timer;
-    QTableWidget list;
+    QtTableWidget list;
     bool first_set = true;
 
     void setCellText(int row,int col,const std::string &text,bool is_new);

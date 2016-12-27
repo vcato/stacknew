@@ -25,7 +25,7 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
   layout.addLayout(&update_layout);
   layout.addWidget(&status_label);
   list.setSelectionBehavior(QAbstractItemView::SelectRows);
-  layout.addWidget(&list);
+  layout.addWidget(&list,/*stretch*/1);
   connect(&update_button,SIGNAL(clicked()),SLOT(updateCallback()));
   connect(
     &list,
@@ -85,15 +85,16 @@ void QtUserInterface::setListEntries(const ListEntries &list_entries)
 
   list.setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-  // Prevent the list from changing width on subsequent updates.
+  // Calculate a good width the first time, so that the interface opens with
+  // a good default size, but don't change it later since that would be
+  // distracting.
   if (first_set) {
     list.resizeColumnsToContents();
-    list.setFixedSize(
-      list.horizontalHeader()->length() + 30,
-      500
-    );
+    list.size_hint = list.size();
     first_set = false;
   }
+
+  list.horizontalHeader()->setResizeMode(0,QHeaderView::ResizeMode::Stretch);
 }
 
 
