@@ -15,18 +15,31 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
 : app(argc,argv)
 {
   widget.setLayout(&layout);
+
+  // Tags
   layout.addLayout(&tags_layout);
   tags_layout.addWidget(&tags_label);
   tags_layout.addWidget(&tags_field);
+
+  // Update
+  layout.addLayout(&update_layout);
   update_layout.addWidget(&update_button);
   update_layout.addStretch();
   update_layout.addWidget(&update_label);
   update_layout.addWidget(&update_combo_box);
-  layout.addLayout(&update_layout);
-  layout.addWidget(&status_label);
-  list.setSelectionBehavior(QAbstractItemView::SelectRows);
-  layout.addWidget(&list,/*stretch*/1);
   connect(&update_button,SIGNAL(clicked()),SLOT(updateCallback()));
+  connect(
+    &update_combo_box,
+    SIGNAL(activated(int)),
+    SLOT(updateOptionActivated(int))
+  );
+
+  // Status
+  layout.addWidget(&status_label);
+
+  // List
+  layout.addWidget(&list,/*stretch*/1);
+  list.setSelectionBehavior(QAbstractItemView::SelectRows);
   connect(
     &list,
     SIGNAL(itemDoubleClicked(QTableWidgetItem*)),
@@ -37,12 +50,9 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
     SIGNAL(itemSelectionChanged()),
     SLOT(listSelectionChanged())
   );
+
+  // Timer
   connect(&timer,SIGNAL(timeout()),SLOT(timeoutCallback()));
-  connect(
-    &update_combo_box,
-    SIGNAL(activated(int)),
-    SLOT(updateOptionActivated(int))
-  );
 }
 
 
