@@ -16,6 +16,9 @@ all:
 	$(MAKE) run_unit_tests
 	$(MAKE) stacknew
 
+tidy:
+	clang-tidy *.cpp -- $(CXXFLAGS)
+
 stacknew: main.o qtuserinterface.o controller.o datestring.o \
   decodedhtmlstring.o makelistentries.o replacedstring.o \
   qtuserinterface_moc.o escapedtags.o realsystem.o userinterface.o \

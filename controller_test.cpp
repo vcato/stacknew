@@ -88,16 +88,16 @@ namespace {
       selected_index = arg;
     }
 
-    void enableTimeouts()
+    void enableTimeouts() override
     {
     }
 
-    OptionalListIndex selectedListIndex()
+    OptionalListIndex selectedListIndex() override
     {
       return selected_index;
     }
 
-    void setSelectedListIndex(OptionalListIndex arg)
+    void setSelectedListIndex(OptionalListIndex arg) override
     {
       selected_index = arg;
     }
@@ -163,12 +163,12 @@ namespace {
       return current_time;
     }
 
-    void saveTags(const std::string &arg)
+    void saveTags(const std::string &arg) override
     {
       saved_tags = arg;
     }
 
-    virtual std::string savedTags()
+    virtual std::string savedTags() override
     {
       return saved_tags;
     }
