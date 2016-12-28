@@ -95,6 +95,7 @@ void QtUserInterface::setListEntries(const ListEntries &list_entries)
   }
 
   list.horizontalHeader()->setResizeMode(0,QHeaderView::ResizeMode::Stretch);
+  list.scrollToTop();
 }
 
 
