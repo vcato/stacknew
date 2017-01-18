@@ -16,6 +16,9 @@
 #include "userinterface.hpp"
 
 
+// We need to have our own TableWidget class so that we can have a custom
+// size hint, which is the preferred size of the table.  We'll calculate the
+// size hint based on the contents.
 struct QtTableWidget : QTableWidget {
   QSize size_hint;
 
