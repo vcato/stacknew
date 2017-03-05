@@ -104,7 +104,11 @@ void QtUserInterface::setListEntries(const ListEntries &list_entries)
     first_set = false;
   }
 
+#if QT_VERSION >= 0x050000
+  list.horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeMode::Stretch);
+#else
   list.horizontalHeader()->setResizeMode(0,QHeaderView::ResizeMode::Stretch);
+#endif
   list.scrollToTop();
 }
 
