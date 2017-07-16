@@ -154,7 +154,13 @@ double RealSystem::currentTime()
 int RealSystem::retrieveLatestQuestions(const string &tags)
 {
   string escaped_tags = escapedTags(tags);
-  return getQuestions(temp_questions_path,escaped_tags);
+  try {
+    return getQuestions(temp_questions_path,escaped_tags);
+  }
+  catch (Poco::TimeoutException &) {
+    cerr << "Timeout trying to retrieve questions.\n";
+    return EXIT_FAILURE;
+  }
 }
 
 
