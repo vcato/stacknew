@@ -11,22 +11,50 @@ using std::cerr;
 using OptionalListIndex = UserInterface::OptionalListIndex;
 
 
+template <typename Widget,typename... Args>
+static Widget& createWidget(QBoxLayout &layout,const Args&... args)
+{
+  Widget *widget_ptr = new Widget(args...);
+  layout.addWidget(widget_ptr);
+  return *widget_ptr;
+}
+
+
+template <typename Layout>
+static Layout& createLayout(QBoxLayout &parent_layout)
+{
+  Layout *layout_ptr = new Layout;
+  parent_layout.addLayout(layout_ptr);
+  return *layout_ptr;
+}
+
+
+template <typename Layout>
+static Layout& createLayout(QWidget &parent_widget)
+{
+  Layout *layout_ptr = new Layout;
+  parent_widget.setLayout(layout_ptr);
+  return *layout_ptr;
+}
+
+
 QtUserInterface::QtUserInterface(int &argc,char** const argv)
 : app(argc,argv)
 {
-  widget.setLayout(&layout);
+  auto &layout = createLayout<QVBoxLayout>(widget);
 
   // Tags
-  layout.addLayout(&tags_layout);
-  tags_layout.addWidget(&tags_label);
-  tags_layout.addWidget(&tags_field);
+  auto& tags_layout = createLayout<QHBoxLayout>(layout);
+  createWidget<QLabel>(tags_layout,"Tags:");
+  tags_field_ptr = &createWidget<QLineEdit>(tags_layout);
 
   // Update
-  layout.addLayout(&update_layout);
-  update_layout.addWidget(&update_button);
+  auto &update_layout = createLayout<QHBoxLayout>(layout);
+  auto &update_button = createWidget<QPushButton>(update_layout,"Update Now");
   update_layout.addStretch();
-  update_layout.addWidget(&update_label);
-  update_layout.addWidget(&update_combo_box);
+  createWidget<QLabel>(update_layout,"Automatic Update Interval:");
+  auto &update_combo_box = createWidget<QComboBox>(update_layout);
+  update_combo_box_ptr = &update_combo_box;
   connect(&update_button,SIGNAL(clicked()),SLOT(updateCallback()));
   connect(
     &update_combo_box,
@@ -35,10 +63,12 @@ QtUserInterface::QtUserInterface(int &argc,char** const argv)
   );
 
   // Status
-  layout.addWidget(&status_label);
+  status_label_ptr = &createWidget<QLabel>(layout);
 
   // List
-  layout.addWidget(&list,/*stretch*/1);
+  auto &list = createWidget<QtTableWidget>(layout);
+  list_ptr = &list;
+  layout.setStretchFactor(list_ptr,1);
   list.setSelectionBehavior(QAbstractItemView::SelectRows);
   connect(
     &list,
@@ -65,19 +95,20 @@ void
     item_ptr->setBackground(Qt::yellow);
   }
 
-  list.setItem(row,col,item_ptr);
+  list().setItem(row,col,item_ptr);
 }
 
 
 string QtUserInterface::tagsString()
 {
-  return tags_field.text().toUtf8().constData();
+  return tagsField().text().toUtf8().constData();
 }
 
 
 void QtUserInterface::setListEntries(const ListEntries &list_entries)
 {
   int n_entries = list_entries.size();
+  QtTableWidget &list = this->list();
   list.setRowCount(n_entries);
   list.setColumnCount(2);
   list.setHorizontalHeaderLabels({"Title","Date"});
@@ -136,13 +167,13 @@ void QtUserInterface::updateCallback()
 
 void QtUserInterface::rowDoubleClicked(QTableWidgetItem* item_ptr)
 {
-  eventHandler().rowClicked(list.row(item_ptr));
+  eventHandler().rowClicked(list().row(item_ptr));
 }
 
 
 void QtUserInterface::setTagsString(const std::string &arg)
 {
-  tags_field.setText(arg.c_str());
+  tagsField().setText(arg.c_str());
 }
 
 
@@ -161,26 +192,26 @@ void QtUserInterface::updateOptionActivated(int index)
 void QtUserInterface::setUpdateOptions(const UpdateOptions &update_options)
 {
   for (const auto &option : update_options) {
-    update_combo_box.addItem(option.text.c_str());
+    updateComboBox().addItem(option.text.c_str());
   }
 }
 
 
 void QtUserInterface::setSelectedUpdateOption(int index)
 {
-  update_combo_box.setCurrentIndex(index);
+  updateComboBox().setCurrentIndex(index);
 }
 
 
 void QtUserInterface::setStatusMessage(const std::string &arg)
 {
-  status_label.setText(("Status: "+arg).c_str());
+  statusLabel().setText(("Status: "+arg).c_str());
 }
 
 
 OptionalListIndex QtUserInterface::selectedListIndex()
 {
-  QItemSelectionModel *model_ptr = list.selectionModel();
+  QItemSelectionModel *model_ptr = list().selectionModel();
   assert(model_ptr);
   QModelIndexList selected_rows = model_ptr->selectedRows();
   if (selected_rows.size()==1) {
@@ -193,10 +224,10 @@ OptionalListIndex QtUserInterface::selectedListIndex()
 void QtUserInterface::setSelectedListIndex(OptionalListIndex optional_index)
 {
   if (optional_index==no_list_index) {
-    list.clearSelection();
+    list().clearSelection();
   }
   else {
-    list.selectRow(optional_index);
+    list().selectRow(optional_index);
   }
 }
 

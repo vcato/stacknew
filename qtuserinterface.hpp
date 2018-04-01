@@ -49,17 +49,36 @@ class QtUserInterface : public QObject, public UserInterface {
   private:
     QApplication app;
     QWidget widget;
-    QVBoxLayout layout;
-    QHBoxLayout tags_layout;
-    QLabel tags_label{"Tags:"};
-    QLineEdit tags_field;
-    QPushButton update_button{"Update Now"};
-    QHBoxLayout update_layout;
-    QLabel update_label{"Automatic Update Interval:"};
-    QComboBox update_combo_box;
-    QLabel status_label;
     QTimer timer;
-    QtTableWidget list;
+    QLineEdit *tags_field_ptr = nullptr;
+    QComboBox *update_combo_box_ptr = nullptr;
+    QLabel *status_label_ptr = nullptr;
+    QtTableWidget *list_ptr = nullptr;
+
+    QLineEdit &tagsField()
+    {
+      assert(tags_field_ptr);
+      return *tags_field_ptr;
+    }
+
+    QComboBox &updateComboBox()
+    {
+      assert(update_combo_box_ptr);
+      return *update_combo_box_ptr;
+    }
+
+    QLabel &statusLabel()
+    {
+      assert(status_label_ptr);
+      return *status_label_ptr;
+    }
+
+    QtTableWidget &list()
+    {
+      assert(list_ptr);
+      return *list_ptr;
+    }
+
     bool first_set = true;
 
     void setCellText(int row,int col,const std::string &text,bool is_new);
