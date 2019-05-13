@@ -192,7 +192,7 @@ void QtUserInterface::updateOptionActivated(int index)
 void QtUserInterface::setUpdateOptions(const UpdateOptions &update_options)
 {
   for (const auto &option : update_options) {
-    updateComboBox().addItem(option.text.c_str());
+    updateComboBox().addItem(option.description.c_str());
   }
 }
 

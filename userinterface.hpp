@@ -13,7 +13,7 @@ class UserInterface {
     static const OptionalListIndex no_list_index = -1;
 
     struct UpdateOption {
-      std::string text;
+      std::string description;
       UpdateInterval interval;
     };
 

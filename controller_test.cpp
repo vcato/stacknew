@@ -59,7 +59,7 @@ namespace {
       int n = update_options.size();
 
       for (int i=0; i!=n; ++i) {
-        if (update_options[i].text==arg) {
+        if (update_options[i].description==arg) {
           return i;
         }
       }
@@ -69,7 +69,7 @@ namespace {
 
     string updateOptionName(int index)
     {
-      return update_options[index].text;
+      return update_options[index].description;
     }
 
     void userChangesUpdateIntervalTo(const std::string &arg)
