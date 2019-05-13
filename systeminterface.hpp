@@ -1,9 +1,9 @@
-#ifndef SYSTEM_HPP_
-#define SYSTEM_HPP_
+#ifndef SYSTEMINTERFACE_HPP_
+#define SYSTEMINTERFACE_HPP_
 
 #include "questions.hpp"
 
-struct System {
+struct SystemInterface {
   virtual Questions readStoredOldQuestions() = 0;
   virtual Questions readStoredNewQuestions() = 0;
   virtual int retrieveLatestQuestions(const std::string &tags) = 0;
@@ -15,4 +15,4 @@ struct System {
   virtual double currentTime() = 0;
 };
 
-#endif /* SYSTEM_HPP_ */
+#endif /* SYSTEMINTERFACE_HPP_ */

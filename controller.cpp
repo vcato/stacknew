@@ -34,14 +34,14 @@ static bool anyAreNew(const ListEntries &new_entries)
 }
 
 
-void Controller::Data::readExisting(System& system)
+void Controller::Data::readExisting(SystemInterface& system)
 {
   old_questions = system.readStoredOldQuestions();
   new_questions = system.readStoredNewQuestions();
 }
 
 
-int Controller::Data::update(System& system,const string &tags)
+int Controller::Data::update(SystemInterface& system,const string &tags)
 {
   if (system.retrieveLatestQuestions(tags)!=EXIT_SUCCESS) {
     return EXIT_FAILURE;
@@ -57,7 +57,7 @@ int Controller::Data::update(System& system,const string &tags)
 
 Controller::Controller(
   UserInterface& user_interface_arg,
-  System& system_arg
+  SystemInterface& system_arg
 )
 : user_interface(user_interface_arg),
   system(system_arg)

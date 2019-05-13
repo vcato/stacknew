@@ -119,7 +119,7 @@ namespace {
 
 
 namespace {
-  struct FakeSystem : System {
+  struct FakeSystem : SystemInterface {
     Questions readStoredOldQuestions() override
     {
       return {};

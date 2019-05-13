@@ -1,18 +1,18 @@
 #include "userinterface.hpp"
-#include "system.hpp"
+#include "systeminterface.hpp"
 
 
 class Controller : private UserInterface::EventHandler {
   public:
-    Controller(UserInterface&, System&);
+    Controller(UserInterface&, SystemInterface&);
     ~Controller();
 
     void runApplication();
     static std::string defaultTags() { return "c++ c++11 c++14 c++17"; }
 
     struct Data {
-      void readExisting(System&);
-      int update(System&,const std::string &tags);
+      void readExisting(SystemInterface&);
+      int update(SystemInterface&,const std::string &tags);
 
       Questions old_questions;
       Questions new_questions;
@@ -35,7 +35,7 @@ class Controller : private UserInterface::EventHandler {
     static const OptionalQuestionId no_question_id = -1;
 
     UserInterface &user_interface;
-    System &system;
+    SystemInterface &system;
 
     void rowClicked(size_t row) override;
     void updatePressed() override;

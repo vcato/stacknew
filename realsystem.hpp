@@ -1,8 +1,8 @@
 #include "questions.hpp"
-#include "system.hpp"
+#include "systeminterface.hpp"
 
 
-struct RealSystem : System {
+struct RealSystem : SystemInterface {
   Questions readStoredOldQuestions() override;
   Questions readStoredNewQuestions() override;
   void playNewQuestionsSound() override;
