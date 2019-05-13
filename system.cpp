@@ -117,32 +117,32 @@ static int getQuestions(const char *path,const string &escaped_tags)
 }
 
 
-Questions RealSystem::readStoredOldQuestions()
+Questions System::readStoredOldQuestions()
 {
   return readQuestionsFrom(old_questions_path);
 }
 
 
-Questions RealSystem::readStoredNewQuestions()
+Questions System::readStoredNewQuestions()
 {
   return readQuestionsFrom(new_questions_path);
 }
 
 
-void RealSystem::playNewQuestionsSound()
+void System::playNewQuestionsSound()
 {
   playSound("pop.wav");
 }
 
 
-void RealSystem::openLink(const string &link)
+void System::openLink(const string &link)
 {
   QUrl url(link.c_str());
   QDesktopServices::openUrl(url);
 }
 
 
-double RealSystem::currentTime()
+double System::currentTime()
 {
   auto now = chrono::system_clock::now();
   chrono::duration<double> time_since_epoch_in_seconds_as_double =
@@ -151,7 +151,7 @@ double RealSystem::currentTime()
 }
 
 
-int RealSystem::retrieveLatestQuestions(const string &tags)
+int System::retrieveLatestQuestions(const string &tags)
 {
   string escaped_tags = escapedTags(tags);
   try {
@@ -164,7 +164,7 @@ int RealSystem::retrieveLatestQuestions(const string &tags)
 }
 
 
-void RealSystem::updateNewQuestions()
+void System::updateNewQuestions()
 {
   rename(new_questions_path,old_questions_path);
   rename(temp_questions_path,new_questions_path);
@@ -174,13 +174,13 @@ void RealSystem::updateNewQuestions()
 static const char *saved_tags_path = "saved_tags.txt";
 
 
-void RealSystem::saveTags(const std::string &tags)
+void System::saveTags(const std::string &tags)
 {
   saveTextToFile(saved_tags_path,tags);
 }
 
 
-std::string RealSystem::savedTags()
+std::string System::savedTags()
 {
   return readTextFromFile(saved_tags_path);
 }
