@@ -1,6 +1,6 @@
 #include "qtuserinterface.hpp"
 #include "controller.hpp"
-#include "realsystem.hpp"
+#include "system.hpp"
 
 
 int main(int argc,char** argv)

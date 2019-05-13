@@ -21,7 +21,7 @@ tidy:
 
 stacknew: main.o qtuserinterface.o controller.o datestring.o \
   decodedhtmlstring.o makelistentries.o replacedstring.o \
-  qtuserinterface_moc.o escapedtags.o realsystem.o userinterface.o \
+  qtuserinterface_moc.o escapedtags.o system.o userinterface.o \
   textfile.o
 	$(CXX) -o $@ $^ -lPocoNet -lPocoFoundation -ljsoncpp $(LIBS)
 

@@ -9,7 +9,7 @@ add_executable(stacknew
   qtuserinterface.cpp
   userinterface.cpp
   controller.cpp
-  realsystem.cpp
+  system.cpp
   textfile.cpp
   datestring.cpp
   escapedtags.cpp
