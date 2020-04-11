@@ -5,9 +5,10 @@
 #include <iostream>
 #include <chrono>
 #include <jsoncpp/json/reader.h>
-#include <Poco/Net/HTTPClientSession.h>
+#include <Poco/Net/HTTPSClientSession.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
+#include <Poco/Net/NetException.h>
 #include <Poco/URI.h>
 #include <Poco/StreamCopier.h>
 #include <Poco/InflatingStream.h>
@@ -91,19 +92,33 @@ static int getQuestions(const char *path,const string &escaped_tags)
     "&filter=default"
     "&site=stackoverflow"
     "&run=true";
-  Poco::URI uri("http://api.stackexchange.com");
-  Net::HTTPClientSession session(uri.getHost(),uri.getPort());
+
+  Poco::URI uri("https://api.stackexchange.com");
+  Net::HTTPSClientSession session(uri.getHost(),uri.getPort());
   Net::HTTPRequest request(Net::HTTPRequest::HTTP_GET,path_and_query);
   HTTPResponse response;
   session.sendRequest(request);
-  istream& response_stream = session.receiveResponse(response);
-  HTTPResponse::HTTPStatus status = response.getStatus();
+  istream *response_stream_ptr = nullptr;
 
+  try {
+    response_stream_ptr = &session.receiveResponse(response);
+  }
+  catch (Poco::Net::NoMessageException &) {
+    cerr << "Got NoMessageException()\n";
+  }
+
+  if (!response_stream_ptr) {
+    return EXIT_FAILURE;
+  }
+
+  istream& response_stream = *response_stream_ptr;
+  HTTPResponse::HTTPStatus status = response.getStatus();
   auto STREAM_GZIP = Poco::InflatingStreamBuf::STREAM_GZIP;
+
   Poco::InflatingInputStream
     inflated_response_stream(response_stream,STREAM_GZIP);
 
-  if (status!=HTTPResponse::HTTP_OK) {
+  if (status != HTTPResponse::HTTP_OK) {
     cerr << "path_and_query=" << path_and_query << "\n";
     cerr << "status=" << status << "\n";
     return EXIT_FAILURE;
