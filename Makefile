@@ -1,15 +1,15 @@
 # Build with Qt4
-PACKAGES=QtGui
-MOC=moc-qt4
+#PACKAGES=QtGui
+#MOC=moc-qt4
 
 # Build with Qt5
-#PACKAGES=Qt5Gui Qt5Core Qt5Widgets
-#MOC=moc
+PACKAGES=Qt5Gui Qt5Core Qt5Widgets
+MOC=moc
 
 
 HEADERS=$(shell pkg-config --cflags $(PACKAGES))
 LIBS=$(shell pkg-config --libs $(PACKAGES))
-CXXFLAGS=-g -MD -MP -W -Wall -pedantic -std=c++11 $(HEADERS) -fpic
+CXXFLAGS=-g -MD -MP -W -Wall -Wno-deprecated-copy -pedantic -std=c++11 $(HEADERS) -fpic
 
 
 all:
